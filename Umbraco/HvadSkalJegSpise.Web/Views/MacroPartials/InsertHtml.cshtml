@@ -1,0 +1,9 @@
+@inherits Umbraco.Web.Macros.PartialViewMacroPage
+@{ 
+    string htmlSnippet = Model.MacroParameters["html"] as string + "";
+    string value = HttpUtility.HtmlDecode(htmlSnippet);
+    if (!string.IsNullOrWhiteSpace(value))
+    {
+        @Html.Raw(value)
+    }
+}

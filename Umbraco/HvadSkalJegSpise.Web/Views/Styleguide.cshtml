@@ -1,0 +1,164 @@
+﻿@inherits UmbracoTemplatePage
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@using Showcase.Web.Models.PartialViewModels
+@{
+    Html.RequiresCss("~/content/css/bootstrap.css")
+        .RequiresCss("~/content/css/font-awesome.css")
+        .RequiresCss("~/content/css/main.css");
+
+
+    var webRoot = Umbraco.TypedContent(1068);
+    var page = webRoot.Descendants<GridPage>().FirstOrDefault();
+    var intro = webRoot.Descendant<FrontPage>()
+        .FrontPageLayout
+        .FirstOrDefault()
+        .GetValue<IEnumerable<IPublishedContent>>("treePicker");
+    var newsList = webRoot.Children<NewsList>().DescendantsOrSelf<NewsPage>();
+}
+@Html.RenderCssHere()
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>Styleguide for @Model.Content.Name</h1>
+        </div>
+    </div>
+    <!-- Typography-->
+    <div class="row">
+        <div class="col-xs-12">
+            <hr />
+            <h3>Typography</h3>
+            <hr />
+            <p class="trumpet">
+                Trumpet lorem ipsum
+            </p>
+            <h1>Headline h1</h1>
+            <h2>Headline h2</h2>
+            <h3>Headline h3</h3>
+            <h4>Headline h4</h4>
+            <h5>Headline h5</h5>
+            <h6>Headline h6</h6>
+            <p class="lead">
+                Lead Nisl ac ipsum gravida vel pretium tellus tincidunt integer eu augue augue nunc elit
+                dolor, luctus placerat scelerisque euismod, iaculis eu lacus nunc.
+            </p>
+            <p>
+                Paragraph integer eu augue augue nunc elit dolor, luctus placerat scelerisque euismod, iaculis eu lacus nunc mi elit, vehicula ut laoreet ac, aliquam sit amet justo nunc tempor, metus vel.
+                Placerat suscipit, orci nisl iaculis eros, a tincidunt nisi odio eget lorem nulla condimentum tempor mattis ut vitae feugiat augue cras ut metus a risus iaculis scelerisque eu ac ante.
+                Fusce non varius purus aenean nec magna felis fusce vestibulum velit mollis odio sollicitudin lacinia aliquam posuere, sapien elementum lobortis tincidunt, turpis dui ornare nisl, sollicitudin interdum turpis nunc eget.
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <hr />
+            <h3>Buttons & Forms</h3>
+            <hr />
+            <a href="" class="btn btn-primary">Primary</a>
+            <a href="" class="btn btn-default">Default</a>
+            <a href="" class="btn btn-success">Success</a>
+            <a href="">Link i tekst</a>
+
+            <div class="form-group">
+                <label>Textbox</label>
+                <input type="" value="" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Textarea</label>
+                <textarea rows="4" class="form-control"></textarea>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value=""><span>Option 1</span></label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" value=""><span>Option 2</span></label>
+            </div>
+            <div class="checkbox disabled">
+                <label><input type="checkbox" value="" disabled><span>Option 3</span></label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="optradio"><span>Option 1</span></label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="optradio"><span>Option 2</span></label>
+            </div>
+            <div class="radio disabled">
+                <label><input type="radio" name="optradio" disabled><span>Option 3</span></label>
+            </div>
+            <div class="form-group">
+                <label for="sel1">Select list:</label>
+                <div class="select-arrow">
+                    <select class="form-control" id="sel1">
+                        <option>Lorem</option>
+                        <option>Bacon lorem</option>
+                        <option>Bacon ham lorem</option>
+                    </select>
+                </div>
+            </div>
+
+            <label for="sel1">Søgeform:</label>
+            <form class="search-form closed" role="search" action="/soeg">
+                <input type="text" name="q" value="@Umbraco.GetQueryString("q", "")" class="form-control" placeholder="Søg..." autocomplete="off">
+                <button class="submit fa fa-search" type="submit"></button>
+                <div class="close fa fa-close"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Card -->
+    <div class="row flex">
+        <div class="col-xs-12">
+            <hr />
+            <h3>Card</h3>
+            <hr />
+            <h4>Card default</h4>
+        </div>
+        @foreach (var item in intro.Skip(1))
+        {
+            <div class="col-xs-12 col-sm-6">
+                @Html.Partial("Modules/_Card", new CardViewModel
+           {
+               Image = item.GetPropertyValue<IEnumerable<IPublishedContent>>("image").FirstOrDefault(),
+               GridSize = 6,
+               ImageHeight = 250,
+               Headline = item.GetPropertyValue<string>("headline", item.Name),
+               Lead = item.GetPropertyValue<string>("lead"),
+               Url = item.Url,
+           })
+            </div>
+        }
+
+    </div>
+
+    <!-- List -->
+    <div class="row">
+        <div class="col-xs-12">
+            <hr />
+            <h3>List</h3>
+            <hr />
+        </div>
+        <div class="col-xs-12">
+            @Html.Partial("Modules/_List", new ListViewModel
+       {
+           Headline = Model.Content.Name,
+           Lead = page.Lead,
+           List = newsList
+       })
+        </div>
+    </div>
+    <!-- Layout Grid -->
+    <div class="row">
+        <div class="col-xs-12">
+            <hr />
+            <h3>Layout Grid</h3>
+            <hr />
+        </div>
+        <div class="col-xs-12">
+            @Html.GetGridHtml(Model.Content, "layout")
+        </div>
+    </div>
+</div>
+
+
+
+

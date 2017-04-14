@@ -1,0 +1,59 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@using HvadSkalJegSpise.Web.Models.ModelsBuilder
+
+@{
+    Layout = null;
+    Html.RequiresJs("https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js", 1, 1, new { @defer = string.Empty })
+        .RequiresJs("https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js", 1, 1, new { @defer = string.Empty })
+        .RequiresJs("https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/1.4.1/jquery-migrate.min.js", 1, 1, new { @defer = string.Empty })
+        .RequiresJs("https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js", 1, 1, new { @defer = string.Empty })
+        .RequiresJs("https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js", 1, 1, new { @defer = string.Empty })
+        .RequiresJs("https://ajax.aspnetcdn.com/ajax/mvc/5.1/jquery.validate.unobtrusive.min.js", 1, 1, new { @defer = string.Empty })
+        .RequiresJs("~/Content/components/picturefill/src/picturefill.js", 1, 1, new { @defer = string.Empty })
+        .RequiresCss("~/content/css/bootstrap.css")
+            .RequiresCss("http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700")
+            .RequiresCss("http://fonts.googleapis.com/css?family=Lekton:400,700,400italic")
+            .RequiresCss("~/content/css/main-oak.css")
+            .RequiresCss("~/content/css/bootstrap.css")
+            .RequiresCss("~/content/css/bootstrap.css")
+
+        .RequiresCss("~/content/css/bootstrap.css")
+        .RequiresCss("~/content/css/main.css");
+
+    }
+<!DOCTYPE html>
+<!--
+  Solution by
+  Datagraf Communications A/S
+  Jægergårdsgade 122 · 8000 Aarhus C
+  Havneholmen 33 · 1561 København V
+  www.datagraf.dk
+  Tlf. +45 87 95 55 55
+-->
+<html lang="@Model.CurrentCulture.TwoLetterISOLanguageName" prefix="og: http://ogp.me/ns#">
+<head>
+    <!-- TODO: Husk at fjern til live-->
+    <meta NAME="robots" content="noindex, nofollow">
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @*@Html.Raw(SEOChecker.Library.MetaData.Current.RenderTags())*@
+    @*@Html.CachedPartial("_Favicons", Model, 3600, false)*@
+    @Html.CachedPartial("_OpenGraph", Model, 300, true)
+    <link rel="alternate" type="application/rss+xml" title="@CurrentPage._siteName" href="rss.xml" />
+    @Html.RenderCssHere()
+</head>
+<body ng-app="ng-app">
+    @Html.CachedPartial("_Header", Model, 3600, cacheByPage: true)
+    @*@Html.CachedPartial("_MobileNav", Model, 3600, cacheByPage: true)*@
+    <div class="body-content">
+        @RenderBody()
+    </div>
+    @Html.CachedPartial("_Footer", Model, 3600)
+    @Html.Partial("_CookieConsent")
+    <!-- ANALYTICS -->
+    @*@Html.Raw(website.Analytics)*@
+
+    @Html.RenderJsHere()
+</body>
+</html>

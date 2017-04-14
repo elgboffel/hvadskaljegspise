@@ -1,0 +1,90 @@
+﻿@inherits UmbracoViewPage<CardViewModel>
+@using Danva.Web.Models.ComponentModels
+@{
+    var fullWidth = Model.Image != null ? null : "style=width:100%";
+}
+<div class="card">
+    @if(!string.IsNullOrEmpty(Model.Url))
+    {
+        @:<a href="@Model.Url">
+    }
+    @if (Model.Image != null)
+    {
+        <div class="card-image">
+            @Html.Partial(
+           "Components/_Media",
+           new MediaViewModel
+           {
+               Image = Model.Image,
+               TypedWidth = Model.TypedWidth,
+               GridSize = Model.GridSize,
+               ImageHeight = Model.ImageHeight,
+               ImageHeightMobile = Model.MobileImageHeight
+           })
+        </div>
+    }
+
+    @if(!string.IsNullOrEmpty(Model.Headline))
+    {
+        <div class="card-content @Umbraco.If(Model.Image == null, "no-image")" @fullWidth>
+                <div class="card-info">
+                    @if (!string.IsNullOrEmpty(Model.Date) && DateTime.Parse(Model.Date).Year > 1 && !Model.AltDatePosition)
+                    {
+                        <time>@Model.Date </time>
+                    }
+                    @if (Model.PrimaryTag != null && !Model.ShowLargePrimaryTag)
+                    {
+                        <span>| @Model.PrimaryTag.Name</span>
+                    }
+                </div>
+                @if (!string.IsNullOrEmpty(Model.Trumpet))
+                {
+                    <small class="trumpet">@Model.Trumpet</small>
+                }
+                @if(!string.IsNullOrEmpty(Model.Headline))
+                {
+                    <h2>@Model.Headline</h2>
+                }
+                @if (!string.IsNullOrEmpty(Model.Date) && DateTime.Parse(Model.Date).Year > 1 && Model.AltDatePosition)
+                {
+                    <time><span>Dato: </span>@Model.Date </time>
+                }
+                @if(!string.IsNullOrEmpty(Model.Category))
+                {
+                    <small class="category">@Model.Category</small>
+                }
+            <div class="card-content-inner">
+                @if (!string.IsNullOrEmpty(Model.Lead))
+                {
+                    <p>@Umbraco.Truncate(Model.Lead, Model.Truncate)</p>
+                }
+                @if(Model.RTE != null)
+                {
+                    <div class="card-text">
+                        @Model.RTE
+                    </div>
+                }
+                @if(!string.IsNullOrEmpty(Model.EventPlace))
+                {
+                    <div class="card-event-place">
+                        <div class="line-border-thin-skew-right"></div>
+                        <span>Placering: </span>@Model.EventPlace
+                    </div>
+                }
+                @if (Model.PrimaryTag != null && Model.ShowLargePrimaryTag)
+                {
+                    <div>
+                        <div class="primary-tag">@Model.PrimaryTag.Name</div>
+                    </div>
+                }
+                <div class="card-spacer"></div>
+            </div>
+        </div>
+    }
+
+    @if(!string.IsNullOrEmpty(Model.Url))
+    {
+        @:</a>
+    }
+</div>
+<div class="card-bottom-spacer"></div>

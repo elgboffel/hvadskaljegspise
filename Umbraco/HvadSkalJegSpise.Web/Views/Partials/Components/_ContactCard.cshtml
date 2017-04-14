@@ -1,0 +1,43 @@
+﻿@inherits UmbracoViewPage<ContactCardViewModel>
+@using Danva.Web.Models.ComponentModels
+
+<div class="contact-card">
+    <div class="contact-image">
+        @if(Model.Image != null)
+        {
+            @Html.Partial(
+                "Components/_Media",
+                new MediaViewModel
+                {
+                    Image = Model.Image,
+                    TypedWidth = Model.TypedWidth,
+                    ImageHeight = Model.ImageHeight,
+                    ImageHeightMobile = Model.ImageHeightMobile
+
+                }
+            )
+        }
+    </div>
+    <h4 class="contact-card-name">@Model.Name</h4>
+    @if(!string.IsNullOrEmpty(Model.Title))
+    {
+        <p class="contact-card-title">@Model.Title</p>
+    }
+    @if(!string.IsNullOrEmpty(Model.WorkArea))
+    {
+        <p class="contact-card-title">@Model.WorkArea</p>
+    }
+    @if(!string.IsNullOrEmpty(Model.Phone))
+    {
+        <p>T: @Model.Phone</p>
+    }
+    @if(!string.IsNullOrEmpty(Model.Mobile))
+    {
+        <p>M: @Model.Mobile</p>
+    }
+    @if(!string.IsNullOrEmpty(Model.Mail))
+    {
+        <a href="mailto: @Model.Mail">@Model.Mail</a>
+    }
+    <div class="contact-card-spacer"></div>
+</div>

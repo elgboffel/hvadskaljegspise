@@ -1,0 +1,132 @@
+﻿@inherits UmbracoViewPage<SoMeShareViewModel>
+@using System.Collections.Specialized
+@using Danva.Web.Models.ComponentModels
+@using Umbraco.Web.Mvc
+
+@{
+    Html.RequiresJs("~/content/components/clipboard/dist/clipboard.min.js", new { @defer = "" })
+        .RequiresJs("~/scripts/app/share-page.js", new { @defer = "" });
+}
+
+<ul id="share-list" class="share-list so-me-share">
+    @if (Model.EnableFacebook)
+    {
+        var encodedUrl = HttpUtility.UrlEncode(Model.CurrentPage.UrlAbsolute());
+        <li class="share-item facebook">
+            <a class="share-link"
+               href="https://www.facebook.com/sharer/sharer.php?u=@encodedUrl"
+               title="@Umbraco.GetDictionaryValue("Share on Facebook", "Del på Facebook")"
+               onclick="PopupCenter(this.href, this.title, 400, 300)">
+                <svg width="100%" height="100%" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><rect id="Moodbord" x="-142" y="-1457" width="1440" height="3797" style="fill:none;" /><g id="facebook-svg-ikon"><path id="kant" d="M30,22l-8,8l-22,0l0,-30l30,0l0,22Zm-29,-21l0,28l20.586,0l7.414,-7.414l0,-20.586l-28,0Z" style="fill:#9b9c83;" /><g id="text" transform="matrix(0.41743,0,0,0.41743,-1590.95,-2061.64)"><text x="3829.33px" y="5010.74px" style="font-family:'CeraStencilPRO-Black', 'Cera Stencil PRO';font-weight:900;font-size:82px;fill:none;">f</text><text x="3829.33px" y="5010.74px" style="font-family:'CeraStencilPRO-Black', 'Cera Stencil PRO';font-weight:900;font-size:82px;fill:#9b9c83;">f</text></g></g></svg>
+            </a>
+        </li>
+    }
+    @if (Model.EnableTwitter)
+    {
+        var encodedUrl = HttpUtility.UrlEncode(Model.CurrentPage.UrlAbsolute());
+        <li class="share-item twitter">
+            <a class="share-link"
+               href="https://twitter.com/home?status=@encodedUrl"
+               title="@Umbraco.GetDictionaryValue("Share on Twitter", "Del på Twitter")"
+               onclick="PopupCenter(this.href, this.title, 400, 300)">
+                <svg width="100%" height="100%" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><rect id="Moodbord" x="-192" y="-1457" width="1440" height="3797" style="fill:none;" /><g id="twitter-svg-ikon"><path id="kant" d="M30,22l-8,8l-22,0l0,-30l30,0l0,22Zm-29,-21l0,28l20.586,0l7.414,-7.414l0,-20.586l-28,0Z" style="fill:#9b9c83;" /><g id="text" transform="matrix(0.41743,0,0,0.41743,-1590.95,-2062.64)"><text x="3826.42px" y="5010.74px" style="font-family:'CeraStencilPRO-Black', 'Cera Stencil PRO';font-weight:900;font-size:82px;fill:none;">t</text><text x="3826.42px" y="5010.74px" style="font-family:'CeraStencilPRO-Black', 'Cera Stencil PRO';font-weight:900;font-size:82px;fill:#9b9c83;">t</text></g></g></svg>
+            </a>
+        </li>
+    }
+    @if (Model.EnableGooglePlus)
+    {
+        var encodedUrl = HttpUtility.UrlEncode(Model.CurrentPage.UrlAbsolute());
+        <li class="share-item google-plus">
+            <a class="share-link"
+               href="https://plus.google.com/share?url=@encodedUrl"
+               title="@Umbraco.GetDictionaryValue("Share on Google+", "Share on Google+")"
+               onclick="PopupCenter(this.href, this.title, 400, 300)">
+                <span class="fa fa-google-plus"></span>
+                <span class="sr-only">@Umbraco.GetDictionaryValue("Share on Google+", "Share on Google+")</span>
+            </a>
+        </li>
+    }
+    @if (Model.EnableLinkedIn)
+    {
+        //https://www.linkedin.com/shareArticle?mini=true&url=http%3A//www.sharelinkgenerator.com/&title=%7Btitle%7D&summary=%7Bsummary%7D&source=
+        NameValueCollection nvc = HttpUtility.ParseQueryString("");
+        nvc.Add("url", Model.CurrentPage.UrlAbsolute());
+        nvc.Add("title", Model.CurrentPage.GetPropertyValue<string>("ogTitle", Model.CurrentPage.Name));
+        // Optionals
+        nvc.Add("summary", Model.CurrentPage.GetPropertyValue<string>("ogDescription", false, ""));
+        nvc.Add("source", Model.CurrentPage.UrlAbsolute());
+        <li class="share-item linkedin">
+            <a class="share-link"
+               href="https://www.linkedin.com/shareArticle?@nvc.ToString()"
+               title="@Umbraco.GetDictionaryValue("Share on LinkedIn", "Share on LinkedIn")"
+               onclick="PopupCenter(this.href, this.title, 400, 300)">
+                <span class="fa fa-linkedin"></span>
+                <span class="sr-only">@Umbraco.GetDictionaryValue("Share on LinkedIn", "Share on LinkedIn")</span>
+            </a>
+        </li>
+    }
+    @if (Model.EnableEmail)
+    {
+        // mailto:1?&cc=3&bcc=4&subject=2&body=5
+        NameValueCollection nvc = HttpUtility.ParseQueryString("");
+        //nvc.Add("cc", Model.Content.UrlAbsolute());
+        //nvc.Add("bcc", Model.Content.UrlAbsolute());
+        nvc.Add("subject", Model.CurrentPage.GetPropertyValue<string>("headline", Model.CurrentPage.Name));
+        nvc.Add("body", Model.CurrentPage.GetPropertyValue<string>("lead"));
+        <li class="share-item email">
+            <a class="share-link"
+               href="mailto:?@nvc.ToString()"
+               title="@Umbraco.GetDictionaryValue("Share by Email", "Del via Email")">
+                <svg width="100%" height="100%" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><rect id="Moodbord" x="-242" y="-1457" width="1440" height="3797" style="fill:none;" /><g id="mail-svg-ikon"><path id="kant" d="M30,22l-8,8l-22,0l0,-30l30,0l0,22Zm-29,-21l0,28l20.586,0l7.414,-7.414l0,-20.586l-28,0Z" style="fill:#9b9c83;" /><g id="text" transform="matrix(0.292095,0,0,0.29292,-1108.38,-1443.59)"><text x="3801.23px" y="5010.74px" style="font-family:'CeraStencilPRO-Black', 'Cera Stencil PRO';font-weight:900;font-size:88.761px;fill:none;">&#64;</text><text x="3801.23px" y="5010.74px" style="font-family:'CeraStencilPRO-Black', 'Cera Stencil PRO';font-weight:900;font-size:88.761px;fill:#9b9c83;">&#64;</text></g></g></svg>
+            </a>
+        </li>
+    }
+    @if (Model.EnablePrint)
+    {
+        <li class="share-item print">
+            <a class="share-link"
+               href="#!"
+               onclick="print()"
+               title="@Umbraco.GetDictionaryValue("Share by Print", "Print and share")">
+                <span class="fa fa-print"></span>
+                <span class="sr-only">@Umbraco.GetDictionaryValue("Share by Print", "Print and share")</span>
+            </a>
+        </li>
+    }
+
+    @if (Model.EnableCopyUrl)
+    {
+        <li class="share-item">
+            <a id="copy-link" class="share-link copy"
+               data-clipboard-text="@Model.CurrentPage.UrlAbsolute()"
+               onclick="alert('Du har nu kopieret linket: ' + window.location.href)"
+               title="@Umbraco.GetDictionaryValue("Copy url", "Kopier url")">
+                <svg width="100%" height="100%" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><rect id="Moodbord" x="-293" y="-1457" width="1440" height="3797" style="fill:none;"/><g id="link-svg-ikon"><path id="kant" d="M30,22l-8,8l-22,0l0,-30l30,0l0,22Zm-29,-21l0,28l20.586,0l7.414,-7.414l0,-20.586l-28,0Z" style="fill:#9b9c83;"/><path id="text" d="M22.647,19.706c0,-0.327 -0.114,-0.605 -0.343,-0.833l-2.549,-2.549c-0.229,-0.229 -0.507,-0.344 -0.833,-0.344c-0.344,0 -0.638,0.131 -0.883,0.393c0.025,0.024 0.102,0.1 0.233,0.226c0.131,0.127 0.219,0.215 0.264,0.264c0.044,0.049 0.106,0.126 0.183,0.233c0.078,0.106 0.131,0.21 0.16,0.312c0.028,0.102 0.043,0.215 0.043,0.337c0,0.327 -0.115,0.605 -0.344,0.833c-0.228,0.229 -0.506,0.344 -0.833,0.344c-0.122,0 -0.235,-0.015 -0.337,-0.043c-0.102,-0.029 -0.206,-0.082 -0.312,-0.16c-0.107,-0.077 -0.184,-0.139 -0.233,-0.183c-0.049,-0.045 -0.137,-0.133 -0.264,-0.264c-0.126,-0.131 -0.202,-0.208 -0.226,-0.233c-0.27,0.253 -0.405,0.552 -0.405,0.895c0,0.327 0.115,0.604 0.343,0.833l2.525,2.537c0.22,0.221 0.498,0.331 0.833,0.331c0.327,0 0.605,-0.106 0.833,-0.319l1.802,-1.789c0.229,-0.229 0.343,-0.502 0.343,-0.821Zm-8.615,-8.64c0,-0.327 -0.115,-0.604 -0.343,-0.833l-2.525,-2.537c-0.229,-0.229 -0.506,-0.343 -0.833,-0.343c-0.319,0 -0.597,0.11 -0.833,0.331l-1.802,1.789c-0.229,0.229 -0.343,0.502 -0.343,0.821c0,0.327 0.114,0.605 0.343,0.833l2.549,2.549c0.221,0.221 0.498,0.331 0.833,0.331c0.344,0 0.638,-0.126 0.883,-0.38c-0.025,-0.024 -0.102,-0.1 -0.233,-0.226c-0.131,-0.127 -0.219,-0.215 -0.264,-0.264c-0.044,-0.049 -0.106,-0.126 -0.183,-0.233c-0.078,-0.106 -0.131,-0.21 -0.16,-0.312c-0.028,-0.102 -0.043,-0.215 -0.043,-0.337c0,-0.327 0.115,-0.605 0.344,-0.833c0.228,-0.229 0.506,-0.344 0.833,-0.344c0.122,0 0.235,0.015 0.337,0.043c0.102,0.029 0.206,0.082 0.312,0.16c0.107,0.077 0.184,0.139 0.233,0.183c0.049,0.045 0.137,0.133 0.264,0.264c0.126,0.131 0.202,0.208 0.226,0.233c0.27,-0.253 0.405,-0.552 0.405,-0.895Zm10.968,8.64c0,0.98 -0.347,1.81 -1.042,2.488l-1.801,1.789c-0.678,0.678 -1.507,1.017 -2.488,1.017c-0.988,0 -1.822,-0.347 -2.5,-1.042l-2.524,-2.536c-0.678,-0.679 -1.018,-1.508 -1.018,-2.488c0,-1.005 0.36,-1.859 1.079,-2.561l-1.079,-1.079c-0.702,0.719 -1.552,1.079 -2.549,1.079c-0.98,0 -1.813,-0.344 -2.5,-1.03l-2.549,-2.549c-0.686,-0.686 -1.029,-1.519 -1.029,-2.5c0,-0.98 0.347,-1.81 1.042,-2.488l1.801,-1.789c0.678,-0.678 1.507,-1.017 2.488,-1.017c0.988,0 1.822,0.347 2.5,1.042l2.524,2.536c0.678,0.679 1.018,1.508 1.018,2.488c0,1.005 -0.36,1.859 -1.079,2.561l1.079,1.079c0.702,-0.719 1.552,-1.079 2.549,-1.079c0.98,0 1.813,0.344 2.5,1.03l2.549,2.549c0.686,0.686 1.029,1.519 1.029,2.5Z" style="fill:#9b9c83;fill-rule:nonzero;"/></g></svg>
+            </a>
+        </li>
+    }
+</ul>
+<script>
+    function PopupCenter(url, title, w, h) {
+        if (event.preventDefault)
+            event.preventDefault();
+        else
+            event.returnValue = false;
+
+        // Fixes dual-screen position                         Most browsers      Firefox
+        var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
+        var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
+
+        var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+        var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+        var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+        var top = ((height / 2) - (h / 2)) + dualScreenTop;
+        var newWindow = window.open(url, title, 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+
+        // Puts focus on the newWindow
+        if (window.focus) {
+            newWindow.focus();
+        }
+    }
+</script>

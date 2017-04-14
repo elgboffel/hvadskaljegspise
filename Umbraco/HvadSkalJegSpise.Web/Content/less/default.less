@@ -1,0 +1,90 @@
+﻿@import (reference) "../components/bootstrap/less/variables.less";
+@import (reference) "../components/bootstrap/less/mixins.less";
+
+
+/*****************************************
+    Code re-used on in severel modules
+******************************************/
+
+.no-overflow {
+    overflow: hidden;
+}
+
+button {
+    outline: none !important;
+}
+
+a {
+    outline: none !important;
+
+    &:hover {
+
+        h1, h2, h3, h4, h5, h6, p, ul, small, time {
+            text-decoration: none;
+        }
+    }
+
+    h1, h2, h3, h4, h5, h6, p, ul, small, time {
+        text-decoration: none;
+    }
+}
+
+ul, ol {
+    margin-bottom: 25px;
+}
+
+picture {
+    img {
+        .img-responsive();
+    }
+}
+
+.spacer20 {
+    margin: 20px 0 0 0;
+    .clearfix();
+}
+
+.spacer25 {
+    margin: 25px 0 0 0;
+    .clearfix();
+}
+
+.spacer40 {
+    margin: 20px 0;
+    .clearfix();
+}
+
+.spacer45 {
+    margin: 22.5px 0;
+    .clearfix();
+}
+
+
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+    /* Safari fix
+     * See: http://stackoverflow.com/questions/32894387/safari-flexbox-does-not-contain-its-elements-properly
+    */
+    &.row {
+        &:before,
+        &:after {
+            display: none;
+        }
+    }
+}
+
+.flex-center {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* Safari fix
+     * See: http://stackoverflow.com/questions/32894387/safari-flexbox-does-not-contain-its-elements-properly
+    */
+    &.row {
+        &:before,
+        &:after {
+            display: none;
+        }
+    }
+}

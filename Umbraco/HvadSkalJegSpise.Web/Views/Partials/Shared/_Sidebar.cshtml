@@ -1,0 +1,76 @@
+﻿@inherits UmbracoViewPage<SidebarViewModel>
+@using BaseSite.Web.Models.PartialModels
+@using BaseSite.Web.Models.ComponentModels
+@using Our.Umbraco.LinksPicker.Models
+
+@if (Model.Layout != null)
+{
+    <div class="sidebar">
+        @if(!string.IsNullOrEmpty(Model.Headline))
+        {
+            <h3>@Model.Headline</h3>
+        }
+
+        @foreach (var item in Model.Layout)
+        {
+            switch (item.DocumentTypeAlias)
+            {
+                case "carousel":
+                    @renderCarouselWithText(item) break;
+
+                case "multipleLinks":
+                    @renderLinks(item) break;
+
+                default:
+                    @renderRichText(item) break;
+            }
+        }
+    </div>
+}
+
+@helper renderCarouselWithText(IPublishedContent carousel)
+{
+    <div class="sidebar-carousel">
+        @Html.Partial(
+        "Components/_CarouselWithText",
+        new CarouselViewModel
+        {
+            Carousel = carousel.GetPropertyValue("carouselNested", Enumerable.Empty<IPublishedContent>()),
+            GridSize = 4,
+            ImageHeight = 300,
+            ImageHeightMobile = 450
+        })
+    </div>
+}
+
+
+@helper renderRichText(IPublishedContent rte)
+{
+    if(rte.HasValue("content"))
+    {
+        <div class="sidebar-rte">
+            @if(rte.HasValue("headline"))
+            {
+                <h3>@Html.Raw(rte.GetPropertyValue<string>("headline"))</h3>
+            }
+            @Html.Raw(rte.GetPropertyValue<IHtmlString>("content", null))
+        </div>
+    }
+}
+
+@helper renderLinks(IPublishedContent multipleLinks)
+{
+    var links = multipleLinks.GetPropertyValue("links", Enumerable.Empty<LinksPickerItem>());
+
+    if(links.Any())
+    {
+        <div class="sidebar-link-list">
+            <ul>
+                @foreach(var link in links)
+                {
+                    <li><a href="@link.Url" target="@link.Target">@link.Name</a></li>
+                }
+            </ul>
+        </div>
+    }
+}

@@ -1,0 +1,50 @@
+﻿@inherits UmbracoViewPage<MediaViewModel>
+@using Danva.Web.Models.ComponentModels
+@using Our.Umbraco.Picture
+
+@if(Model.Image != null)
+{
+    var image = Model.Image;
+
+    var mobileHeight = Model.ImageHeightMobile > 0 ? Model.ImageHeightMobile : Model.ImageHeight;
+
+    if (Model.TypedWidth != 0)
+    {
+        @renderTypedMedia(image, mobileHeight)
+    } else
+    {
+        @renderMedia(image, mobileHeight)
+    }
+}
+
+@helper renderTypedMedia(IPublishedContent image, int mobileHeight)
+{
+    var picture = Umbraco.Picture(image)
+    .Source("(min-width:992px)", ResizeImage(Model.TypedWidth, 12, 0), Model.ImageHeight)
+    .Source("(min-width:768px)", ResizeImage(Model.TypedWidth, 12, Model.GridTotalPadding), Model.ImageHeight)
+    .Source("(min-width:480px)", ResizeImage(Model.TypedWidth, 12, Model.GridTotalPadding), Model.ImageHeight)
+    .Srcset(ResizeImage(480, 12, Model.GridTotalPadding), mobileHeight)
+    .Alt(image.Name);
+
+    @Html.RenderPicture(picture);
+}
+
+@helper renderMedia(IPublishedContent image, int mobileHeight)
+{
+    var picture = Umbraco.Picture(image)
+    .Source("(min-width:992px)", ResizeImage(1380, Model.GridSize, Model.GridTotalPadding), Model.ImageHeight)
+    .Source("(min-width:768px)", ResizeImage(992, 12, Model.GridTotalPadding), Model.ImageHeight)
+    .Source("(min-width:480px)", ResizeImage(768, 12, Model.GridTotalPadding), mobileHeight)
+    .Srcset(ResizeImage(480, 12, Model.GridTotalPadding), mobileHeight)
+    .Alt(image.Name);
+
+    @Html.RenderPicture(picture);
+}
+
+@functions {
+    private int ResizeImage(int containerSize, int gridSize, int gridPadding)
+    {
+        int size = (((containerSize / 12) + 1) * gridSize) - gridPadding;
+        return size;
+    }
+}

@@ -1,0 +1,38 @@
+@inherits UmbracoTemplatePage
+@using System.Linq;
+@{
+    string COOKIE_NAME = "CookieConsent";
+    string FIELD_NAME = "AcceptCookies";
+    ///
+    if (Request.HttpMethod == "POST" && Request.Form[FIELD_NAME] != null)
+    {
+        Response.Cookies.Add(new HttpCookie(COOKIE_NAME, "1")
+        {
+            Domain = Request.Url.Host,
+            Expires = DateTime.Now.AddDays(30),
+            Path = "/",
+            Secure = Request.Url.Scheme == "https",
+            HttpOnly = false
+        });
+    }
+}
+
+@if (Request.Cookies[COOKIE_NAME] == null)
+{
+  @**
+   * ng-non-bindable: is required in case angular is added to the project.
+   * You could add your own button in the "cookieConsentText" property.
+   *@
+    <div class="container">
+        <form id="CookieConsentForm"
+              name="CookieConsentForm"
+              class="form-cookie-consent"
+              method="POST"
+              ng-non-bindable>
+            <div class="alert-info cookie-consent">
+                <button type="submit" class="close" name="@FIELD_NAME" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                @Html.Raw(Model.Content.GetPropertyValue("cookieConsentText", true, ""))
+            </div>
+        </form>
+    </div>
+}

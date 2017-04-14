@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="..\packages\UmbracoCms.7.5.13\build\UmbracoCms.props" Condition="Exists('..\packages\UmbracoCms.7.5.13\build\UmbracoCms.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -24,6 +26,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>2.0</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,6 +46,78 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=3.3.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AutoMapper.Net4, Version=3.3.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="businesslogic, Version=1.0.6309.16499, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UmbracoCms.Core.7.5.13\lib\businesslogic.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ClientDependency.Core, Version=1.9.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ClientDependency.1.9.2\lib\net45\ClientDependency.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ClientDependency.Core.Mvc, Version=1.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ClientDependency-Mvc5.1.8.0.0\lib\net45\ClientDependency.Core.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="cms, Version=1.0.6309.16500, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UmbracoCms.Core.7.5.13\lib\cms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="controls, Version=1.0.6309.16501, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UmbracoCms.Core.7.5.13\lib\controls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CookComputing.XmlRpcV2, Version=2.5.0.0, Culture=neutral, PublicKeyToken=a7d6e17aa302004d, processorArchitecture=MSIL">
+      <HintPath>..\packages\xmlrpcnet.2.5.0\lib\net20\CookComputing.XmlRpcV2.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Examine, Version=0.1.82.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Examine.0.1.82\lib\net45\Examine.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.4.9.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.9\lib\Net45\HtmlAgilityPack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ImageProcessor, Version=2.5.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ImageProcessor.2.5.2\lib\net45\ImageProcessor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ImageProcessor.Web, Version=4.8.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ImageProcessor.Web.4.8.2\lib\net45\ImageProcessor.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="interfaces, Version=1.0.6309.16494, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UmbracoCms.Core.7.5.13\lib\interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Lecoati.LeBlender.Extension, Version=1.0.8.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lecoati.LeBlender.1.0.8.4\lib\Lecoati.LeBlender.Extension.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UmbracoCms.Core.7.5.13\lib\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Lucene.Net, Version=2.9.4.1, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lucene.Net.2.9.4.1\lib\net40\Lucene.Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MarkdownSharp, Version=1.14.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Markdown.1.14.7\lib\net45\MarkdownSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -67,8 +142,28 @@
       <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.2.0\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.1559.20655, Culture=neutral">
+      <HintPath>..\packages\UmbracoCms.Core.7.5.13\lib\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.ApplicationInsights, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.2.2.0\lib\net46\Microsoft.ApplicationInsights.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.Common.1.0.0\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.1.0.0\lib\net45\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -76,6 +171,95 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.1.2.1\lib\net45\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MiniProfiler, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b44f9351044011a3, processorArchitecture=MSIL">
+      <HintPath>..\packages\MiniProfiler.2.1.0\lib\net40\MiniProfiler.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Our.Umbraco.LinksPicker, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Our.Umbraco.LinksPicker.1.0.1.0\lib\net451\Our.Umbraco.LinksPicker.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Our.Umbraco.NestedContent, Version=0.4.6286.19708, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Our.Umbraco.NestedContent.0.4.0\lib\net45\Our.Umbraco.NestedContent.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Our.Umbraco.Picture, Version=1.5.6145.40022, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Our.Umbraco.Picture.1.5.6145.40022\lib\net451\Our.Umbraco.Picture.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Our.Umbraco.PropertyEditorConverters, Version=3.1.2.88, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Our.Umbraco.CoreValueConverters.3.1.2\lib\net45\Our.Umbraco.PropertyEditorConverters.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Semver, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\semver.1.1.2\lib\net451\Semver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SQLCE4Umbraco, Version=1.0.6309.16501, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UmbracoCms.Core.7.5.13\lib\SQLCE4Umbraco.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Collections.Immutable, Version=1.1.36.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.1.36\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.1, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\UmbracoCms.Core.7.5.13\lib\System.Data.SqlServerCe.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.SqlServerCe.Entity, Version=4.0.0.1, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\UmbracoCms.Core.7.5.13\lib\System.Data.SqlServerCe.Entity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reflection.Metadata, Version=1.0.21.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reflection.Metadata.1.0.21\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -85,6 +269,38 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -92,12 +308,276 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="TidyNet, Version=1.0.0.0, Culture=neutral">
+      <HintPath>..\packages\UmbracoCms.Core.7.5.13\lib\TidyNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="umbraco, Version=1.0.6309.16503, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UmbracoCms.Core.7.5.13\lib\umbraco.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Umbraco.Core, Version=1.0.6309.16496, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UmbracoCms.Core.7.5.13\lib\Umbraco.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="umbraco.DataLayer, Version=1.0.6309.16499, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UmbracoCms.Core.7.5.13\lib\umbraco.DataLayer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="umbraco.editorControls, Version=1.0.6309.16505, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UmbracoCms.Core.7.5.13\lib\umbraco.editorControls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="umbraco.MacroEngines, Version=1.0.6309.16506, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UmbracoCms.Core.7.5.13\lib\umbraco.MacroEngines.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Umbraco.ModelsBuilder, Version=3.0.7.99, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Umbraco.ModelsBuilder.3.0.7\lib\Umbraco.ModelsBuilder.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Umbraco.ModelsBuilder.Api, Version=3.0.6.97, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Umbraco.ModelsBuilder.Api.3.0.6\lib\Umbraco.ModelsBuilder.Api.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="umbraco.providers, Version=1.0.6309.16502, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UmbracoCms.Core.7.5.13\lib\umbraco.providers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Umbraco.Web.UI, Version=1.0.6309.16506, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UmbracoCms.Core.7.5.13\lib\Umbraco.Web.UI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="UmbracoExamine, Version=0.7.0.16500, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UmbracoCms.Core.7.5.13\lib\UmbracoExamine.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="UrlRewritingNet.UrlRewriter, Version=2.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UrlRewritingNet.2.0.7\lib\UrlRewritingNet.UrlRewriter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="config\imageprocessor\security.config" />
+    <Content Include="config\imageprocessor\processing.config" />
+    <Content Include="config\imageprocessor\cache.config" />
+    <Content Include="App_Plugins\ModelsBuilder\package.manifest" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\Partials\Grid\Editors\Textstring.cshtml" />
+    <Content Include="Views\Partials\Grid\Editors\Rte.cshtml" />
+    <Content Include="Views\Partials\Grid\Editors\Media.cshtml" />
+    <Content Include="Views\Partials\Grid\Editors\Macro.cshtml" />
+    <Content Include="Views\Partials\Grid\Editors\Embed.cshtml" />
+    <Content Include="Views\Partials\Grid\Editors\Base.cshtml" />
+    <Content Include="Views\Partials\Grid\Bootstrap3.cshtml" />
+    <Content Include="Views\Partials\Grid\Bootstrap3-Fluid.cshtml" />
+    <Content Include="Views\Partials\Grid\Bootstrap2.cshtml" />
+    <Content Include="Views\Partials\Grid\Bootstrap2-Fluid.cshtml" />
+    <Content Include="Media\Web.config" />
+    <Content Include="config\UrlRewriting.config" />
+    <Content Include="config\umbracoSettings.config" />
+    <Content Include="config\trees.config" />
+    <Content Include="config\tinyMceConfig.config" />
+    <Content Include="config\scripting.config" />
+    <Content Include="config\metablogConfig.config" />
+    <Content Include="config\log4net.config" />
+    <Content Include="config\FileSystemProviders.config" />
+    <Content Include="config\feedProxy.config" />
+    <Content Include="config\ExamineSettings.config" />
+    <Content Include="config\ExamineIndex.config" />
+    <Content Include="config\EmbeddedMedia.config" />
+    <Content Include="config\Dashboard.config" />
+    <Content Include="config\ClientDependency.config" />
+    <Content Include="config\BaseRestExtensions.config" />
+    <Content Include="config\applications.config" />
+    <Content Include="config\404handlers.config" />
+    <Content Include="Content\less\default.less" />
+    <Content Include="Content\less\main.less" />
+    <Content Include="Views\CourseList.cshtml" />
+    <Content Include="Views\CoursePage.cshtml" />
+    <Content Include="Views\FrontPage.cshtml" />
+    <Content Include="Views\GridPage.cshtml" />
+    <Content Include="Views\Landingpage.cshtml" />
+    <Content Include="Views\NewsList.cshtml" />
+    <Content Include="Views\NewsPage.cshtml" />
+    <Content Include="Views\Partials\Components\_Breadcrumb.cshtml" />
+    <Content Include="Views\Partials\Components\_Card.cshtml" />
+    <Content Include="Views\Partials\Components\_CarouselWithText.cshtml" />
+    <Content Include="Views\Partials\Components\_ContactCard.cshtml" />
+    <Content Include="Views\Partials\Components\_FluidMedia.cshtml" />
+    <Content Include="Views\Partials\Components\_Hero.cshtml" />
+    <Content Include="Views\Partials\Components\_LightboxImage.cshtml" />
+    <Content Include="Views\Partials\Components\_List.cshtml" />
+    <Content Include="Views\Partials\Components\_ListGroupedByDate.cshtml" />
+    <Content Include="Views\Partials\Components\_Media.cshtml" />
+    <Content Include="Views\Partials\Components\_Newsletter.cshtml" />
+    <Content Include="Views\Partials\Components\_PageHeader.cshtml" />
+    <Content Include="Views\Partials\Components\_SoMe.cshtml" />
+    <Content Include="Views\Partials\Components\_SoMeShare.cshtml" />
+    <Content Include="Views\Partials\Grid\Editors\Banner.cshtml" />
+    <Content Include="Views\Partials\Grid\Editors\Carousel.cshtml" />
+    <Content Include="Views\Partials\Grid\Editors\Counter.cshtml" />
+    <Content Include="Views\Partials\Grid\Editors\EmployeeList.cshtml" />
+    <Content Include="Views\Partials\Grid\Editors\Factbox.cshtml" />
+    <Content Include="Views\Partials\Grid\Editors\Gallery.cshtml" />
+    <Content Include="Views\Partials\Grid\Editors\Image.cshtml" />
+    <Content Include="Views\Partials\Grid\Editors\InjectHtml.cshtml" />
+    <Content Include="Views\Partials\Grid\Editors\List.cshtml" />
+    <Content Include="Views\Partials\Grid\Editors\quote.cshtml" />
+    <Content Include="Views\Partials\Grid\Editors\Spot.cshtml" />
+    <Content Include="Views\Partials\Shared\_RelatedPageList.cshtml" />
+    <Content Include="Views\Partials\Shared\_Sidebar.cshtml" />
+    <Content Include="Views\Partials\_CookieConsent.cshtml" />
+    <Content Include="Views\Partials\_DesktopNav.cshtml" />
+    <Content Include="Views\Partials\_Favicons.cshtml" />
+    <Content Include="Views\Partials\_Footer.cshtml" />
+    <Content Include="Views\Partials\_Header.cshtml" />
+    <Content Include="Views\Partials\_MediaList.cshtml" />
+    <Content Include="Views\Partials\_MobileNav.cshtml" />
+    <Content Include="Views\Partials\_OpenGraph.cshtml" />
+    <Content Include="Views\Partials\_SharePage.cshtml" />
+    <Content Include="Views\Partials\_SubNavbar.cshtml" />
+    <Content Include="Views\SearchPage.cshtml" />
+    <Content Include="Views\Styleguide.cshtml" />
+    <Content Include="Views\_Layout.cshtml" />
+    <Content Include=".bowerrc" />
+    <Content Include="bower.json" />
+    <Content Include="package.json" />
+    <Content Include="SCADA.Web.wpp.targets" />
+    <Content Include="Views\Partials\Grid\FrontPage.cshtml" />
+    <Content Include="Content\components\bootstrap\less\.csscomb.json" />
+    <Content Include="Content\components\bootstrap\less\.csslintrc" />
+    <Content Include="Content\components\bootstrap\less\alerts.less" />
+    <Content Include="Content\components\bootstrap\less\badges.less" />
+    <Content Include="Content\components\bootstrap\less\bootstrap.less" />
+    <Content Include="Content\components\bootstrap\less\breadcrumbs.less" />
+    <Content Include="Content\components\bootstrap\less\button-groups.less" />
+    <Content Include="Content\components\bootstrap\less\buttons.less" />
+    <Content Include="Content\components\bootstrap\less\carousel.less" />
+    <Content Include="Content\components\bootstrap\less\close.less" />
+    <Content Include="Content\components\bootstrap\less\code.less" />
+    <Content Include="Content\components\bootstrap\less\component-animations.less" />
+    <Content Include="Content\components\bootstrap\less\dropdowns.less" />
+    <Content Include="Content\components\bootstrap\less\forms.less" />
+    <Content Include="Content\components\bootstrap\less\glyphicons.less" />
+    <Content Include="Content\components\bootstrap\less\grid.less" />
+    <Content Include="Content\components\bootstrap\less\input-groups.less" />
+    <Content Include="Content\components\bootstrap\less\jumbotron.less" />
+    <Content Include="Content\components\bootstrap\less\labels.less" />
+    <Content Include="Content\components\bootstrap\less\list-group.less" />
+    <Content Include="Content\components\bootstrap\less\media.less" />
+    <Content Include="Content\components\bootstrap\less\mixins.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\alerts.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\background-variant.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\border-radius.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\buttons.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\center-block.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\clearfix.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\forms.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\gradients.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\grid-framework.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\grid.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\hide-text.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\image.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\labels.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\list-group.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\nav-divider.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\nav-vertical-align.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\opacity.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\pagination.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\panels.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\progress-bar.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\reset-filter.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\reset-text.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\resize.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\responsive-visibility.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\size.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\tab-focus.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\table-row.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\text-emphasis.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\text-overflow.less" />
+    <Content Include="Content\components\bootstrap\less\mixins\vendor-prefixes.less" />
+    <Content Include="Content\components\bootstrap\less\modals.less" />
+    <Content Include="Content\components\bootstrap\less\navbar.less" />
+    <Content Include="Content\components\bootstrap\less\navs.less" />
+    <Content Include="Content\components\bootstrap\less\normalize.less" />
+    <Content Include="Content\components\bootstrap\less\pager.less" />
+    <Content Include="Content\components\bootstrap\less\pagination.less" />
+    <Content Include="Content\components\bootstrap\less\panels.less" />
+    <Content Include="Content\components\bootstrap\less\popovers.less" />
+    <Content Include="Content\components\bootstrap\less\print.less" />
+    <Content Include="Content\components\bootstrap\less\progress-bars.less" />
+    <Content Include="Content\components\bootstrap\less\responsive-embed.less" />
+    <Content Include="Content\components\bootstrap\less\responsive-utilities.less" />
+    <Content Include="Content\components\bootstrap\less\scaffolding.less" />
+    <Content Include="Content\components\bootstrap\less\tables.less" />
+    <Content Include="Content\components\bootstrap\less\theme.less" />
+    <Content Include="Content\components\bootstrap\less\thumbnails.less" />
+    <Content Include="Content\components\bootstrap\less\tooltip.less" />
+    <Content Include="Content\components\bootstrap\less\type.less" />
+    <Content Include="Content\components\bootstrap\less\utilities.less" />
+    <Content Include="Content\components\bootstrap\less\variables.less" />
+    <Content Include="Content\components\bootstrap\less\wells.less" />
+    <Content Include="App_Plugins\LinksPicker\package.manifest" />
+    <Content Include="App_Plugins\NestedContent\package.manifest" />
+    <Content Include="App_Plugins\LeBlender\Web.config" />
+    <Content Include="App_Plugins\LeBlender\views_samples\Tabs.cshtml" />
+    <Content Include="App_Plugins\LeBlender\views_samples\Highlight.cshtml" />
+    <Content Include="App_Plugins\LeBlender\views_samples\Carousel.cshtml" />
+    <Content Include="App_Plugins\LeBlender\package.manifest" />
+    <Content Include="App_Plugins\LeBlender\editors\leblendereditor\views\LeBlender.cshtml" />
+    <Content Include="App_Plugins\LeBlender\editors\leblendereditor\views\Base.cshtml" />
+    <Content Include="Content\css\.DS_Store" />
+    <Content Include="Content\css\bootstrap-theme.css.map" />
+    <Content Include="Content\css\bootstrap.css.map" />
+    <Content Include="Content\fonts\.DS_Store" />
+    <Content Include="Content\fonts\azedo-bold-webfont.eot" />
+    <Content Include="Content\fonts\azedo-bold-webfont.ttf" />
+    <Content Include="Content\fonts\azedo-bold-webfont.woff" />
+    <Content Include="Content\fonts\azedo-bold-webfont.woff2" />
+    <Content Include="Content\fonts\azedo-light-webfont %281%29.woff" />
+    <Content Include="Content\fonts\azedo-light-webfont.eot" />
+    <Content Include="Content\fonts\azedo-light-webfont.ttf" />
+    <Content Include="Content\fonts\azedo-light-webfont.woff" />
+    <Content Include="Content\fonts\azedo-light-webfont.woff2" />
+    <Content Include="Content\fonts\et-line %281%29.woff" />
+    <Content Include="Content\fonts\et-line.eot" />
+    <Content Include="Content\fonts\et-line.ttf" />
+    <Content Include="Content\fonts\et-line.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular %281%29.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\icomoon %281%29.ttf" />
+    <Content Include="Content\fonts\icomoon.eot" />
+    <Content Include="Content\fonts\icomoon.ttf" />
+    <Content Include="Content\fonts\icomoon.woff" />
+    <Content Include="Content\fonts\ionicons %281%29.woff" />
+    <Content Include="Content\fonts\ionicons.eot" />
+    <Content Include="Content\fonts\ionicons.ttf" />
+    <Content Include="Content\fonts\ionicons.woff" />
+    <Content Include="Content\fonts\Pe-icon-7-stroke.eot" />
+    <Content Include="Content\fonts\Pe-icon-7-stroke.ttf" />
+    <Content Include="Content\fonts\Pe-icon-7-stroke.woff" />
+    <Content Include="Content\img\.DS_Store" />
+    <Content Include="Content\img\arch-slider\.DS_Store" />
+    <Content Include="Content\img\blog\.DS_Store" />
+    <Content Include="Content\img\clients\.DS_Store" />
+    <Content Include="Content\img\full-slider\.DS_Store" />
+    <Content Include="Content\img\home-portfolio\.DS_Store" />
+    <Content Include="Content\img\masonry-portfolio\.DS_Store" />
+    <Content Include="Content\img\owl\.DS_Store" />
+    <Content Include="Content\img\portfolio-2column\.DS_Store" />
+    <Content Include="Content\img\single-project\.DS_Store" />
+    <Content Include="Content\img\slider\.DS_Store" />
+    <Content Include="Content\img\tabs-slider\.DS_Store" />
+    <Content Include="Content\img\team\.DS_Store" />
+    <Content Include="Content\js\.DS_Store" />
+    <Content Include="Content\js\vendor\.DS_Store" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -106,16 +586,266 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Logs\UmbracoTraceLog.Johnny-pc.txt" />
+    <Content Include="App_Plugins\LeBlender\backoffice\GridEditorManager\delete.html" />
+    <Content Include="App_Plugins\LeBlender\backoffice\GridEditorManager\delete.js" />
+    <Content Include="App_Plugins\LeBlender\backoffice\GridEditorManager\edit.html" />
+    <Content Include="App_Plugins\LeBlender\backoffice\GridEditorManager\edit.js" />
+    <Content Include="App_Plugins\LeBlender\backoffice\GridEditorManager\sort.html" />
+    <Content Include="App_Plugins\LeBlender\backoffice\GridEditorManager\sort.js" />
+    <Content Include="App_Plugins\LeBlender\common\directive\blendereditorwrapper.js" />
+    <Content Include="App_Plugins\LeBlender\common\directive\layersresizabledraggable.js" />
+    <Content Include="App_Plugins\LeBlender\common\directive\propertygrideditorwrapper.js" />
+    <Content Include="App_Plugins\LeBlender\common\filter\orderobjectby.filter.js" />
+    <Content Include="App_Plugins\LeBlender\common\services\requesthelper.service.js" />
+    <Content Include="App_Plugins\LeBlender\editors\leblendereditor\assets\parameterconfig.css" />
+    <Content Include="App_Plugins\LeBlender\editors\leblendereditor\dialogs\parameterconfig.controller.js" />
+    <Content Include="App_Plugins\LeBlender\editors\leblendereditor\dialogs\parameterconfig.html" />
+    <Content Include="App_Plugins\LeBlender\editors\leblendereditor\dialogs\parameterconfig.prevalues.controller.js" />
+    <Content Include="App_Plugins\LeBlender\editors\leblendereditor\dialogs\parameterconfig.prevalues.html" />
+    <Content Include="App_Plugins\LeBlender\editors\leblendereditor\leblendereditor.controller.js" />
+    <Content Include="App_Plugins\LeBlender\editors\leblendereditor\leblendereditor.html" />
+    <Content Include="App_Plugins\LeBlender\editors\leblendereditor\leblenderproperties.controller.js" />
+    <Content Include="App_Plugins\LeBlender\editors\leblendereditor\leblenderproperties.html" />
+    <Content Include="App_Plugins\LeBlender\editors\textstring\textstringconfig.html" />
+    <Content Include="App_Plugins\LeBlender\views_samples\sample_styles.css" />
+    <Content Include="App_Plugins\LinksPicker\linkspicker.controller.js" />
+    <Content Include="App_Plugins\LinksPicker\linkspicker.css" />
+    <Content Include="App_Plugins\LinksPicker\linkspicker.html" />
+    <Content Include="App_Plugins\ModelsBuilder\modelsbuilder.controller.js" />
+    <Content Include="App_Plugins\ModelsBuilder\modelsbuilder.htm" />
+    <Content Include="App_Plugins\ModelsBuilder\modelsbuilder.resource.js" />
+    <Content Include="App_Plugins\NestedContent\Css\nestedcontent.css" />
+    <Content Include="App_Plugins\NestedContent\Js\nestedcontent.controllers.js" />
+    <Content Include="App_Plugins\NestedContent\Js\nestedcontent.directives.js" />
+    <Content Include="App_Plugins\NestedContent\Js\nestedcontent.filters.js" />
+    <Content Include="App_Plugins\NestedContent\Js\nestedcontent.resources.js" />
+    <Content Include="App_Plugins\NestedContent\Views\nestedcontent.doctypepicker.html" />
+    <Content Include="App_Plugins\NestedContent\Views\nestedcontent.editor.html" />
+    <Content Include="App_Plugins\NestedContent\Views\nestedcontent.html" />
+    <Content Include="config\grid.editors.config.js" />
+    <Content Include="config\Lang\cs-CZ.user.xml" />
+    <Content Include="config\Lang\da-DK.user.xml" />
+    <Content Include="config\Lang\de-DE.user.xml" />
+    <Content Include="config\Lang\en-GB.user.xml" />
+    <Content Include="config\Lang\en-US.user.xml" />
+    <Content Include="config\Lang\es-ES.user.xml" />
+    <Content Include="config\Lang\fr-FR.user.xml" />
+    <Content Include="config\Lang\he-IL.user.xml" />
+    <Content Include="config\Lang\it-IT.user.xml" />
+    <Content Include="config\Lang\ja-JP.user.xml" />
+    <Content Include="config\Lang\ko-KR.user.xml" />
+    <Content Include="config\Lang\nb-NO.user.xml" />
+    <Content Include="config\Lang\nl-NL.user.xml" />
+    <Content Include="config\Lang\pl-PL.user.xml" />
+    <Content Include="config\Lang\pt-BR.user.xml" />
+    <Content Include="config\Lang\ru-RU.user.xml" />
+    <Content Include="config\Lang\sv-SE.user.xml" />
+    <Content Include="config\Lang\zh-CN.user.xml" />
+    <Content Include="Content\css\animate.css" />
+    <Content Include="Content\css\bootstrap-theme.css" />
+    <Content Include="Content\css\bootstrap-theme.min.css" />
+    <Content Include="Content\css\bootstrap.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\et-line.css" />
+    <Content Include="Content\css\iconmoon.css" />
+    <Content Include="Content\css\ionicons.css" />
+    <Content Include="Content\css\jquery.kenburnsy.css" />
+    <Content Include="Content\css\loader-1.css" />
+    <Content Include="Content\css\loader-2.css" />
+    <Content Include="Content\css\loader-3.css" />
+    <Content Include="Content\css\magnific-popup.css" />
+    <Content Include="Content\css\main-oak.css" />
+    <Content Include="Content\css\owl.carousel.css" />
+    <Content Include="Content\css\owl.theme.css" />
+    <Content Include="Content\css\pe-icon-7-stroke.css" />
+    <Content Include="Content\css\responsive.css" />
+    <Content Include="Content\css\tabs.css" />
+    <Content Include="Content\css\tabstyles.css" />
+    <Content Include="Content\fonts\azedo-bold-webfont %281%29.svg" />
+    <Content Include="Content\fonts\azedo-bold-webfont.svg" />
+    <Content Include="Content\fonts\azedo-light-webfont.svg" />
+    <Content Include="Content\fonts\et-line.svg" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\fonts\icomoon.svg" />
+    <Content Include="Content\fonts\ionicons.svg" />
+    <Content Include="Content\fonts\Pe-icon-7-stroke.svg" />
+    <Content Include="Content\img\about-header.jpg" />
+    <Content Include="Content\img\about-studio.jpg" />
+    <Content Include="Content\img\about_img.jpg" />
+    <Content Include="Content\img\about_img2.jpg" />
+    <Content Include="Content\img\about_img3.jpg" />
+    <Content Include="Content\img\arch-slider\image_1.jpg" />
+    <Content Include="Content\img\architecure-image.jpg" />
+    <Content Include="Content\img\blog-header.jpg" />
+    <Content Include="Content\img\blog\img_1.jpg" />
+    <Content Include="Content\img\blog\img_2.jpg" />
+    <Content Include="Content\img\blog\img_3.jpg" />
+    <Content Include="Content\img\blog\img_4.jpg" />
+    <Content Include="Content\img\clients\client_1.jpg" />
+    <Content Include="Content\img\clients\client_2.jpg" />
+    <Content Include="Content\img\clients\client_3.jpg" />
+    <Content Include="Content\img\clients\client_4.jpg" />
+    <Content Include="Content\img\cursor.png" />
+    <Content Include="Content\img\full-slider\image_1.jpg" />
+    <Content Include="Content\img\full-slider\image_2.jpg" />
+    <Content Include="Content\img\full-slider\image_3.jpg" />
+    <Content Include="Content\img\full-slider\image_4.jpg" />
+    <Content Include="Content\img\home-portfolio\img_1.jpg" />
+    <Content Include="Content\img\home-portfolio\img_2.jpg" />
+    <Content Include="Content\img\home-portfolio\img_3.jpg" />
+    <Content Include="Content\img\home-portfolio\img_4.jpg" />
+    <Content Include="Content\img\home-portfolio\img_5.jpg" />
+    <Content Include="Content\img\home-portfolio\img_6.jpg" />
+    <Content Include="Content\img\home-portfolio\img_7.jpg" />
+    <Content Include="Content\img\home-portfolio\img_8.jpg" />
+    <Content Include="Content\img\home-portfolio\img_9.jpg" />
+    <Content Include="Content\img\logo.png" />
+    <Content Include="Content\img\map-pin.png" />
+    <Content Include="Content\img\masonry-portfolio\img_1.jpg" />
+    <Content Include="Content\img\masonry-portfolio\img_10.jpg" />
+    <Content Include="Content\img\masonry-portfolio\img_11.jpg" />
+    <Content Include="Content\img\masonry-portfolio\img_12.jpg" />
+    <Content Include="Content\img\masonry-portfolio\img_2.jpg" />
+    <Content Include="Content\img\masonry-portfolio\img_3.jpg" />
+    <Content Include="Content\img\masonry-portfolio\img_4.jpg" />
+    <Content Include="Content\img\masonry-portfolio\img_5.jpg" />
+    <Content Include="Content\img\masonry-portfolio\img_6.jpg" />
+    <Content Include="Content\img\masonry-portfolio\img_7.jpg" />
+    <Content Include="Content\img\masonry-portfolio\img_8.jpg" />
+    <Content Include="Content\img\masonry-portfolio\img_9.jpg" />
+    <Content Include="Content\img\menu_logo.png" />
+    <Content Include="Content\img\nav_bg.jpg" />
+    <Content Include="Content\img\newsletter-bg.jpg" />
+    <Content Include="Content\img\our-story.jpg" />
+    <Content Include="Content\img\owl\AjaxLoader.gif" />
+    <Content Include="Content\img\owl\grabbing.png" />
+    <Content Include="Content\img\portfolio-2column\img_1.jpg" />
+    <Content Include="Content\img\portfolio-2column\img_2.jpg" />
+    <Content Include="Content\img\portfolio-header.jpg" />
+    <Content Include="Content\img\services.jpg" />
+    <Content Include="Content\img\single-project\img_1.jpg" />
+    <Content Include="Content\img\single-project\img_1b.jpg" />
+    <Content Include="Content\img\single-project\img_2b.jpg" />
+    <Content Include="Content\img\single-project\img_3b.jpg" />
+    <Content Include="Content\img\slider-left.png" />
+    <Content Include="Content\img\slider-right.png" />
+    <Content Include="Content\img\slider\image_1.jpg" />
+    <Content Include="Content\img\slider\image_2.jpg" />
+    <Content Include="Content\img\slider\image_3.jpg" />
+    <Content Include="Content\img\slider\image_4.jpg" />
+    <Content Include="Content\img\slider\image_5.jpg" />
+    <Content Include="Content\img\tabs-slider\image_1.jpg" />
+    <Content Include="Content\img\tabs-slider\image_2.jpg" />
+    <Content Include="Content\img\tabs-slider\image_3.jpg" />
+    <Content Include="Content\img\tabs\tab-image-1.jpg" />
+    <Content Include="Content\img\team\member_1.jpg" />
+    <Content Include="Content\img\team\member_2.jpg" />
+    <Content Include="Content\img\team\member_3.jpg" />
+    <Content Include="Content\js\ajax.js" />
+    <Content Include="Content\js\ef-slider.js" />
+    <Content Include="Content\js\main.js" />
+    <Content Include="Content\js\map-costum.js" />
+    <Content Include="Content\js\vendor\bootstrap.js" />
+    <Content Include="Content\js\vendor\bootstrap.min.js" />
+    <Content Include="Content\js\vendor\classie.js" />
+    <Content Include="Content\js\vendor\imagesloaded.pkgd.min.js" />
+    <Content Include="Content\js\vendor\isotope.pkgd.min.js" />
+    <Content Include="Content\js\vendor\jquery-1.11.2.min.js" />
+    <Content Include="Content\js\vendor\jquery.kenburnsy.min.js" />
+    <Content Include="Content\js\vendor\jquery.magnific-popup.min.js" />
+    <Content Include="Content\js\vendor\jquery.social-buttons.min.js" />
+    <Content Include="Content\js\vendor\jquery.velocity.min.js" />
+    <Content Include="Content\js\vendor\jribbble.js" />
+    <Content Include="Content\js\vendor\modernizr-2.8.3-respond-1.4.2.min.js" />
+    <Content Include="Content\js\vendor\npm.js" />
+    <Content Include="Content\js\vendor\owl.carousel.min.js" />
+    <Content Include="Content\js\vendor\pace.min.js" />
+    <Content Include="Content\js\vendor\tabs.js" />
+    <Content Include="Content\js\vendor\textslide.js" />
+    <Content Include="Content\js\vendor\wow.min.js" />
+    <Content Include="css\body-text-formats.css" />
+    <Content Include="css\footer-formats.css" />
+    <Content Include="default.aspx" />
+    <Content Include="Global.asax" />
+    <Content Include="gulpfile.js" />
+    <Content Include="nuget.exe" />
+    <Content Include="robots.txt" />
+    <Content Include="scripts\app\counter.js" />
+    <Content Include="scripts\app\share-page.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AsyncContentListController.cs" />
+    <Compile Include="Controllers\SearchPageController.cs" />
+    <Compile Include="Controllers\TreeMenuController.cs" />
+    <Compile Include="EventHandlers\ExternalIndexerEventHandler.cs" />
+    <Compile Include="EventHandlers\ImageProcessorInterceptorEventHandler.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Extensions\ExamineExtensions.cs" />
+    <Compile Include="Extensions\HtmlHelperExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\TemplateUtillitiesExtensions.cs" />
+    <Compile Include="Extensions\UmbracoHelperExtensions.cs" />
+    <Compile Include="Helpers\SearchHelper.cs" />
+    <Compile Include="Models\AsyncContentListModel.cs" />
+    <Compile Include="Models\ComponentModels\BreadcrumbViewModel.cs" />
+    <Compile Include="Models\ComponentModels\CardViewModel.cs" />
+    <Compile Include="Models\ComponentModels\CarouselViewModel.cs" />
+    <Compile Include="Models\ComponentModels\ContactCardViewModel.cs" />
+    <Compile Include="Models\ComponentModels\FluidMediaViewModel.cs" />
+    <Compile Include="Models\ComponentModels\HeroViewModel.cs" />
+    <Compile Include="Models\ComponentModels\LightboxImageViewModel.cs" />
+    <Compile Include="Models\ComponentModels\ListGroupedByDateViewModel.cs" />
+    <Compile Include="Models\ComponentModels\ListViewModel.cs" />
+    <Compile Include="Models\ComponentModels\MediaListItem.cs" />
+    <Compile Include="Models\ComponentModels\MediaViewModel.cs" />
+    <Compile Include="Models\ComponentModels\NewsletterViewModel.cs" />
+    <Compile Include="Models\ComponentModels\PageHeaderViewModel.cs" />
+    <Compile Include="Models\ComponentModels\SoMeShareViewModel.cs" />
+    <Compile Include="Models\ComponentModels\SoMeViewModel.cs" />
+    <Compile Include="Models\EventContentModel.cs" />
+    <Compile Include="Models\ModelsBuilder\Builder.cs">
+      <Generator>UmbracoModelsBuilder</Generator>
+    </Compile>
+    <Compile Include="Models\PartialModels\SidebarViewModel.cs" />
+    <Compile Include="Models\TreeMenuModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="scripts\app\angular\async-content-list.ctrl.ts" />
+    <TypeScriptCompile Include="scripts\app\angular\ng-app.ts" />
+    <TypeScriptCompile Include="scripts\app\carousel.jquery.ts" />
+    <TypeScriptCompile Include="scripts\app\search-form.ts" />
+    <TypeScriptCompile Include="scripts\app\tree-menu.ts" />
+    <TypeScriptCompile Include="scripts\typings\angularjs\angular-animate.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\angularjs\angular-component-router.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\angularjs\angular-cookies.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\angularjs\angular-mocks.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\angularjs\angular-resource.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\angularjs\angular-route.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\angularjs\angular-sanitize.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\angularjs\angular.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\handlebars\handlebars-1.0.0.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\jquery.validation\jquery.validation.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\owlcarousel\owlcarousel.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <ProjectExtensions>
@@ -142,7 +872,11 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\UmbracoCms.7.5.13\build\UmbracoCms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.5.13\build\UmbracoCms.props'))" />
+    <Error Condition="!Exists('..\packages\UmbracoCms.7.5.13\build\UmbracoCms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\UmbracoCms.7.5.13\build\UmbracoCms.targets'))" />
   </Target>
+  <Import Project="..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets')" />
+  <Import Project="..\packages\UmbracoCms.7.5.13\build\UmbracoCms.targets" Condition="Exists('..\packages\UmbracoCms.7.5.13\build\UmbracoCms.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

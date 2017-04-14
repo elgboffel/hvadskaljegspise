@@ -1,0 +1,49 @@
+﻿@inherits UmbracoViewPage<HeroViewModel>
+@using Danva.Web.Models.ComponentModels
+
+<div class="hero">
+    <div class="hero-image">
+        @if(Model.Image.Any())
+        {
+            var image = Model.Image.FirstOrDefault();
+            @RenderImage(image)
+        }
+    </div>
+
+    @if(!string.IsNullOrEmpty(Model.Headline))
+    {
+        <small>@Html.Raw(Model.Headline)</small>
+    }
+</div>
+
+@helper RenderImage(IPublishedContent image)
+{
+    if(Model.FluidHero)
+    {
+         @Html.Partial(
+            "Components/_FluidMedia",
+            new FluidMediaViewModel
+            {
+                Image = image,
+                GridSize = Model.GridSize,
+                ImageHeight = Model.ImageHeight,
+                ImageHeightLargeDesktop = Model.ImageHeightLargeDesktop,
+                ImageHeightMobile = Model.ImageHeightMobile,
+                GridTotalPadding = Model.GridTotalPadding
+            })
+    }
+    else
+    {
+
+        @Html.Partial(
+            "Components/_Media",
+            new MediaViewModel
+            {
+                Image = image,
+                GridSize = Model.GridSize,
+                ImageHeight = Model.ImageHeight,
+                ImageHeightMobile = Model.ImageHeightMobile,
+                GridTotalPadding = Model.GridTotalPadding
+            })
+    }
+}

@@ -1,0 +1,82 @@
+﻿@inherits UmbracoViewPage<LightboxImageViewModel>
+@using BaseSite.Web.Models.ComponentModels
+
+@{
+    Html.RequiresCss("~/Content/components/lightbox2/dist/css/lightbox.css", 201)
+    .RequiresJs("~/Content/components/lightbox2/dist/js/lightbox.js", 201);
+}
+
+@if (Model.Image != null)
+{
+    <div class="lightbox-image-container">
+        <div class="lightbox-image">
+            <a class="lightbox-button" href="@Model.Image.Url" data-lightbox="@Model.Id"></a>
+             @if(!Model.ImageIsFluid){
+                @RenderImage(Model.Image)
+             } else
+             {
+                 @RenderFluidImage(Model.Image)
+             }
+        </div>
+        <div class="lightbox-image-text">
+            @if(!string.IsNullOrEmpty(Model.Headline))
+            {
+                <h5>@(Model.Headline): </h5>
+            }
+
+            @if(!string.IsNullOrEmpty(Model.Text))
+            {
+                <p class="text">@Model.Text</p>
+            }
+
+            @if(!string.IsNullOrEmpty(Model.Byline))
+            {
+                <p class="byline">@Model.Byline</p>
+            }
+        </div>
+        <div class="lightbox-image-spacer"></div>
+    </div>
+}
+
+@helper RenderImage(IPublishedContent image)
+{
+    var gridPadding = 30;
+    var largeDesktop = Model.ImageHeightLargeDesktop > 0 ? Model.ImageHeightLargeDesktop : Model.ImageHeight;
+    var mobile = Model.ImageHeightMobile > 0 ? Model.ImageHeightMobile : Model.ImageHeight;
+
+    var picture = Umbraco.Picture(image)
+    .Source("(min-width:1200px)", image.GetCropUrl(width: ResizeImage(1180, Model.GridSize, gridPadding), height: largeDesktop, preferFocalPoint: true))
+    .Source("(min-width:992px)", image.GetCropUrl(width: ResizeImage(980, Model.GridSize, gridPadding), height: Model.ImageHeight, preferFocalPoint: true))
+    .Source("(min-width:768px)", image.GetCropUrl(width: ResizeImage(760, 12, gridPadding), height: Model.ImageHeight, preferFocalPoint: true))
+    .Source("(min-width:480px)", image.GetCropUrl(width: ResizeImage(760, 12, gridPadding), height: mobile, preferFocalPoint: true))
+    .Srcset(image.GetCropUrl(width: ResizeImage(462, 12, gridPadding), height: mobile, preferFocalPoint: true))
+    .Alt(image.Name);
+
+    @picture.Html();
+}
+
+@helper RenderFluidImage(IPublishedContent image)
+{
+    var gridPadding = 30;
+    var largeDesktop = Model.ImageHeightLargeDesktop > 0 ? Model.ImageHeightLargeDesktop : Model.ImageHeight;
+    var mobile = Model.ImageHeightMobile > 0 ? Model.ImageHeightMobile : Model.ImageHeight;
+
+    var picture = Umbraco.Picture(image)
+    .Source("(min-width:1700px)", image.GetCropUrl(width: ResizeImage(2500, Model.GridSize, gridPadding), height: largeDesktop, preferFocalPoint: true))
+    .Source("(min-width:1200px)", image.GetCropUrl(width: ResizeImage(1700, Model.GridSize, gridPadding), height: largeDesktop, preferFocalPoint: true))
+    .Source("(min-width:992px)", image.GetCropUrl(width: ResizeImage(1200, Model.GridSize, gridPadding), height: Model.ImageHeight, preferFocalPoint: true))
+    .Source("(min-width:768px)", image.GetCropUrl(width: ResizeImage(992, Model.GridSize, gridPadding), height: Model.ImageHeight, preferFocalPoint: true))
+    .Source("(min-width:480px)", image.GetCropUrl(width: ResizeImage(768, 12, gridPadding), height: mobile, preferFocalPoint: true))
+    .Srcset(image.GetCropUrl(width: ResizeImage(480, 12, gridPadding), height: mobile, preferFocalPoint: true))
+    .Alt(image.Name);
+
+    @picture.Html();
+}
+
+@functions {
+    private int ResizeImage(int containerSize, int gridSize, int gridPadding)
+    {
+        int size = (((containerSize / 12) + 1) * gridSize) - gridPadding;
+        return size;
+    }
+}

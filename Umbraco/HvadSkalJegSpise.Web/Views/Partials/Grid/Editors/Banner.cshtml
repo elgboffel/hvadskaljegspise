@@ -1,0 +1,53 @@
+﻿@inherits UmbracoViewPage<LeBlenderModel>
+@using Lecoati.LeBlender.Extension.Models
+@using Danva.Web.Models.ComponentModels
+@using Danva.Web.Models.ModelsBuilder
+@using Umbraco.Web
+
+@foreach (var item in Model.Items)
+{
+    @renderContent(item)
+}
+
+@helper renderContent(LeBlenderValue content)
+{
+    var image = content.GetValue<IEnumerable<IPublishedContent>>("image");
+    var hasImage = image != null ? image.FirstOrDefault() : null;
+
+    var link = content.GetValue<IEnumerable<Our.Umbraco.LinksPicker.Models.LinksPickerItem>>("link");
+
+    var headline = content.GetValue<string>("headline");
+    var lead = content.GetValue<string>("lead");
+    <div class="banner">
+        @if (link.Any())
+        {
+            @:<a href="@link.FirstOrDefault().Url">
+        }
+        @Html.CachedPartial(
+            "Components/_Media",
+            new MediaViewModel
+            {
+                Image = hasImage,
+                GridSize = 12,
+                ImageHeight = 150
+            },
+            3600,
+            cacheByPage: true
+        )
+        <div class="banner-content">
+            @if (!string.IsNullOrEmpty(headline))
+            {
+                <h2 class="h1">@headline</h2>
+            }
+            @if (!string.IsNullOrEmpty(lead))
+            {
+                <p class="lead">@lead</p>
+            }
+        </div>
+        @if (link.Any())
+        {
+            @:</a>
+        }
+    </div>
+
+}

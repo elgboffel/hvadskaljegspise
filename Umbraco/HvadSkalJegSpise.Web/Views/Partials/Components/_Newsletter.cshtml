@@ -1,0 +1,24 @@
+﻿@inherits UmbracoViewPage<NewsletterViewModel>
+@using BaseSite.Web.Models.ComponentModels
+
+@{
+    Html.RequiresJs("~/scripts/app/newsletter.js");
+}
+
+@if (!string.IsNullOrEmpty(Model.Html))
+{
+    <div class="newsletter">
+        <div class="newsletter-tab">
+            <div class="newsletter-tab-inner">
+                <div class="newsletter-tab-icon"></div>
+                <div class="newsletter-tab-headline">
+                    @Model.TabHeadline
+                </div>
+            </div>
+        </div>
+        <div class="newsletter-content">
+            @Html.Raw(Model.Html)
+            <div class="newsletter-close" data-icon="&#x51;"></div>
+        </div>
+    </div>
+}

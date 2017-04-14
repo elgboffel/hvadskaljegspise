@@ -1,0 +1,82 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@using HvadSkalJegSpise.Web.Models
+
+@{
+    Layout = "_Layout.cshtml";
+
+    var website = Model.Content.AncestorOrSelf("website");
+    var blog = website.Children("blogList").FirstOrDefault();
+    var randomPost = blog.Descendants("blogPage")
+        .RandomOrder()
+        .Take(1)
+        .FirstOrDefault();
+
+    var image = randomPost
+        .GetPropertyValue("heroImage", Enumerable.Empty<IPublishedContent>())
+        .FirstOrDefault();
+}
+
+<div class="front-page">
+    <div class="container">
+        @if (randomPost != null)
+        {
+
+        <div class="blog-post">
+            <div class="blog-front-image">
+                <div class="row flex">
+                    <div class="col-md-6">
+                        <img src="@(image.GetCropUrl(height: 500))" alt="Blog Image">
+                    </div>
+                    <div class="col-md-5 col-md-offset-1">
+                        <div class="blog-front-content">
+                            <div class="blog-front-content-inner">
+                                <span class="post-date">@(randomPost.CreateDate.ToString("d MMM - yyyy"))</span>
+                                <h1>@Html.Raw(randomPost.GetPropertyValue<string>("headline", randomPost.Name))</h1>
+                                <p>@Html.Raw(Umbraco.ReplaceLineBreaksForHtml(randomPost.GetPropertyValue<string>("lead", "")))</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="single-blog-wrapper">
+            <div class="blog-post">
+                @*<div class="blog-front-image">
+                    <div class="row">
+                        <div class="col-md-6 wow  fadeInUp animated" data-wow-delay="0.10s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;">
+                            <img src="img/blog/img_1.jpg" alt="Blog Image">
+                        </div>
+                        <div class="col-md-5 col-md-offset-1">
+                            <div class="blog-front-content wow  fadeInUp animated" data-wow-delay="0.20s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+                                <div class="blog-front-content-inner">
+                                    <span class="post-single-date">14 Jun - 2015</span>
+                                    <div class="share-buttons">
+                                        <span class="info-title">Share:</span>
+                                        <ul>
+                                            <li><a href="#"><i class="iconmoon-facebook"></i></a></li>
+                                            <li><a href="#"><i class="iconmoon-twitter"></i></a></li>
+                                            <li><a href="#"><i class="iconmoon-google-plus"></i></a></li>
+                                            <li><a href="#"><i class="iconmoon-pinterest"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="blog-tags">
+                                        <span class="info-title">Tags:</span>
+                                        <ul>
+                                            <li><a href="#">clean</a></li>
+                                            <li><a href="#">modern</a></li>
+                                            <li><a href="#">beauty</a></li>
+                                            <li><a href="#">fashion</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+                    <div class="full-blog-content">
+                         @Html.GetGridHtml(randomPost, "layout")
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

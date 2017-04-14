@@ -1,0 +1,29 @@
+﻿@inherits UmbracoViewPage<LeBlenderModel>
+@using Lecoati.LeBlender.Extension.Models
+@using Danva.Web.Models.ComponentModels
+
+@foreach (var item in Model.Items)
+{
+    @renderContent(item)
+}
+
+@helper renderContent(LeBlenderValue content)
+{
+    var gridPosition = content.GetValue<string>("gridPosition");
+    var position = !string.IsNullOrEmpty(gridPosition) ? gridPosition : "139";
+
+     <div class="factbox position-@position">
+        <div class="line-border-thick-skew-right"></div>
+         <div class="factbox-inner">
+             @if(content.HasProperty("headline"))
+             {
+                <h4 class="factbox-headline">@Html.Raw(content.GetValue("headline"))</h4>
+             }
+             @if(content.HasProperty("rte"))
+             {
+                  @Html.Raw(content.GetValue<string>("rte"))
+             }
+            <div class="factbox-spacer"></div>
+         </div>
+     </div>
+}

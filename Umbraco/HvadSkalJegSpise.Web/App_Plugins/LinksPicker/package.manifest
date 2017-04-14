@@ -1,0 +1,30 @@
+{
+  "propertyEditors": [
+    {
+      "id": "66157F21-8BAB-4807-AC2E-33F48221E053",
+      "name": "Links Picker",
+      "alias": "Our.LinksPicker",
+      "group": "Pickers",
+      "editor": {
+        "view": "~/App_Plugins/LinksPicker/LinksPicker.html",
+        "valueType": "JSON"
+      },
+      "prevalues": {
+        "fields": [
+          {
+            "label": "Maximum number of items",
+            "description": "",
+            "key": "max",
+            "view": "textstring"
+          }
+        ]
+      }
+    }
+  ],
+  "javascript": [
+    "~/App_Plugins/LinksPicker/LinksPicker.controller.js"
+  ],
+  "css": [
+    "~/App_Plugins/LinksPicker/LinksPicker.css"
+  ]
+}

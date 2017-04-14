@@ -1,0 +1,74 @@
+﻿@inherits UmbracoViewPage<List<MediaListItem>>
+@using Danva.Web.Models.ComponentModels;
+
+<div class="media-list" id="@ViewData["id"]">
+    @foreach (var media in Model)
+    {
+        <div class="media media-link @media.Content.DocumentTypeAlias.ToLower()" onclick="window.location.href='';">
+            <div class="media-left">
+                <a class="media-object" href="" target="_self">
+                    @*@if (media.Image != null)
+                    {
+                        switch (media.Content.DocumentTypeAlias.ToLower())
+                        {
+                            case "employee":
+                                @Html.RenderPicture(Umbraco.Picture((IPublishedContent)media.Image)
+                                .Source("(min-width: 1200px)", 144, 144)
+                                .Source("(min-width: 992px)", 144, 144)
+                                .Source("(min-width: 768px)", 144, 144)
+                                .Source("(min-width: 480px)", 96, 96)
+                                .Srcset(60, 60)
+                                .Attr("class", "img-circle"));
+                                break;
+                            case "file":
+                                @Html.RenderPicture(Umbraco.Picture((string)media.Image)
+                                .Source("(min-width: 1200px)", 144, 144)
+                                .Source("(min-width: 992px)", 144, 144)
+                                .Source("(min-width: 768px)", 144, 144)
+                                .Source("(min-width: 480px)", 96, 96)
+                                .Srcset(60, 60));
+                                break;
+                            default:
+                                @Html.RenderPicture(Umbraco.Picture((IPublishedContent)media.Image)
+                                .Source("(min-width: 1200px)", 144, 144)
+                                .Source("(min-width: 992px)", 144, 144)
+                                .Source("(min-width: 768px)", 144, 144)
+                                .Source("(min-width: 480px)", 96, 96)
+                                .Srcset(60, 60));
+                                break;
+                        }
+
+                    }
+                </a>*@
+            </div>
+            <div class="media-body media-middle">
+                @if (!string.IsNullOrEmpty(media.Type))
+                {
+                    <strong class="media-trompet trompet">@Umbraco.GetDictionaryValue(@media.Type, @media.Type)</strong>
+                }
+                <h3 class="media-heading">@media.Heading</h3>
+                @if (media.Date.HasValue)
+                {
+                    <time class="media-date" datetime="@media.Date.Value.ToString("yyyy-MM-dd")">@media.Date.Value.ToString("dd. MMMM yyyy")</time>
+                }
+                <p>@Html.Raw(Umbraco.ReplaceLineBreaksForHtml(media.Description))</p>
+                @RenderBreadcrumb(media.Content)
+            </div>
+        </div>
+    }
+</div>
+
+@helper RenderBreadcrumb(IPublishedContent page) {
+    var ancestors = page.Ancestors().Where(x=>x.Level > 1).OrderBy(x=>x.Level);
+    if (ancestors.Any())
+    {
+        <ul class="media-breadcrumb breadcrumb">
+            @foreach(var ancestor in ancestors)
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="@ancestor.UrlAbsolute()">@ancestor.Name</a>
+                </li>
+            }
+        </ul>
+    }
+}

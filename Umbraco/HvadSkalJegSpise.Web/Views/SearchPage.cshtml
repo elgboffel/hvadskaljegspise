@@ -1,0 +1,111 @@
+﻿@inherits UmbracoViewPage<Danva.Web.Controllers.SearchModel>
+@using Danva.Web.Models.ComponentModels;
+@using Danva.Web.Helpers;
+@{
+    Layout = "_Layout.cshtml";
+    var site = Model.Content.Site();
+    var page = Model.Content;
+}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+            @Html.CachedPartial(
+                "Components/_Breadcrumb",
+                new BreadcrumbViewModel
+                {
+                    CurrentPage = Model.Content
+                },
+                3600,
+                cacheByPage: true
+            )
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-6 col-md-offset-3">
+            @Html.CachedPartial(
+                "Components/_PageHeader",
+                new PageHeaderViewModel
+                {
+                    Headline = page.GetPropertyValue<string>("headline", page.Name),
+                    Lead = page.GetPropertyValue<string>("lead", ""),
+                },
+                3600,
+                cacheByPage: true
+            )
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-6 col-md-offset-3">
+            <form class="search-form" role="search" action="/soegeside">
+                <input type="text" name="q" value="@Umbraco.GetQueryString("q", "")" class="form-control" placeholder="Søg..." autocomplete="off">
+                <div class="submit" data-action="/soegeside">
+                    <svg width="100%" height="100%" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><rect id="Moodbord" x="-333" y="-1457" width="1440" height="3797" style="fill:none;" /><g id="fa-search"><path id="fa-search1" d="M13.846,8.462c0,-1.483 -0.527,-2.751 -1.58,-3.805c-1.054,-1.053 -2.322,-1.58 -3.804,-1.58c-1.483,0 -2.751,0.527 -3.805,1.58c-1.053,1.054 -1.58,2.322 -1.58,3.805c0,1.482 0.527,2.75 1.58,3.804c1.054,1.053 2.322,1.58 3.805,1.58c1.482,0 2.75,-0.527 3.804,-1.58c1.053,-1.054 1.58,-2.322 1.58,-3.804Zm6.154,10c0,0.416 -0.152,0.777 -0.457,1.081c-0.304,0.305 -0.665,0.457 -1.081,0.457c-0.433,0 -0.794,-0.152 -1.082,-0.457l-4.123,-4.11c-1.434,0.993 -3.033,1.49 -4.795,1.49c-1.146,0 -2.242,-0.222 -3.288,-0.667c-1.045,-0.445 -1.947,-1.046 -2.704,-1.803c-0.757,-0.757 -1.358,-1.659 -1.803,-2.704c-0.445,-1.046 -0.667,-2.142 -0.667,-3.287c0,-1.146 0.222,-2.242 0.667,-3.288c0.445,-1.045 1.046,-1.947 1.803,-2.704c0.757,-0.757 1.659,-1.358 2.704,-1.803c1.046,-0.445 2.142,-0.667 3.288,-0.667c1.145,0 2.241,0.222 3.287,0.667c1.045,0.445 1.947,1.046 2.704,1.803c0.757,0.757 1.358,1.659 1.803,2.704c0.445,1.046 0.667,2.142 0.667,3.288c0,1.762 -0.497,3.361 -1.49,4.795l4.122,4.123c0.297,0.296 0.445,0.657 0.445,1.082Z" style="fill:#b4b5a2;fill-rule:nonzero;" /></g></svg>
+                </div>
+            </form>
+        </div>
+    </div>
+    @if (Model.TotalResults > 0)
+    {
+        var searchHelper = new SearchHelper(Umbraco.UmbracoContext);
+        var mediaList = Model.AllResults.Select(x => Convert(x, searchHelper)).WhereNotNull().ToList();
+        @RenderResult(mediaList, site)
+    }
+    else
+    {
+        @RenderNoResult()
+    }
+
+</div>
+
+@helper RenderResult(List<MediaListItem> list, IPublishedContent site)
+{
+    <div class="search-page-result">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="text-muted result-caption">@string.Format(Model.Content.GetPropertyValue<string>("resultTextFormat", "{0} resultat(er)"), Model.TotalResults)</div>
+                 @Html.Partial("_MediaList", list)
+            </div>
+        </div>
+    </div>
+}
+@helper RenderNoResult()
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <h2 class="h2 text-center">Der blev desværre ikke fundet noget resultat</h2>
+            <p class="text-center"></p>
+        </div>
+    </div>
+}
+
+@functions {
+    public MediaListItem Convert(SearchResult result, SearchHelper searchHelper)
+    {
+        IPublishedContent content = null;
+        switch (result.Fields["__IndexType"])
+        {
+            case "content":
+                content = Umbraco.TypedContent(result.Id);
+                break;
+
+            case "media":
+                content = Umbraco.TypedMedia(result.Id);
+                break;
+        }
+
+        if (content == null)
+            return null;
+
+        var item = new MediaListItem(content);
+
+        if (item.Type == "File")
+        {
+            item.Image = "/content/images/file.png";
+            item.Description = result.Fields["FileTextContent"];
+        }
+
+        item.Description = searchHelper.FirstParagraphContain(item.Description, 200, Model.SearchTerms).ToString();
+
+        return item;
+    }
+}

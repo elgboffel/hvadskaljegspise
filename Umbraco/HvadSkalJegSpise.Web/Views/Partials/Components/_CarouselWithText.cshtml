@@ -1,0 +1,59 @@
+﻿@inherits UmbracoViewPage<CarouselViewModel>
+@using Danva.Web.Models.ComponentModels
+
+@{
+    Html.RequiresCss("~/Content/components/owl-carousel2/dist/assets/owl.carousel.css", 201)
+            .RequiresCss("~/Content/components/owl-carousel2/dist/assets/owl.theme.default.css", 203)
+            .RequiresJs("~/Content/components/owl-carousel2/dist/owl.carousel.js", 203)
+            .RequiresJs("~/scripts/app/carousel.jquery.js", 204);
+
+    var carousel = Model.Carousel;
+}
+@if(carousel.Any())
+{
+
+    <div class="owl-carousel"
+        data-options='{
+        "items": 1,
+         "nav": true,
+         "navText": ["", ""],
+         "autoplay": true,
+         "autoplayHoverPause": true,
+         "navContainer": ".item",
+         "autoHeight": true }'>
+        @foreach(var slide in carousel)
+        {
+            @renderSlide(slide)
+        }
+    </div>
+}
+
+@helper renderSlide(IPublishedContent slide)
+{
+    var image = slide
+        .GetPropertyValue("image", Enumerable.Empty<IPublishedContent>())
+        .FirstOrDefault();
+
+    if(image != null)
+    {
+        <div class="item">
+            @Html.Partial(
+           "Components/_Media",
+           new MediaViewModel
+           {
+               Image = image,
+               GridSize = Model.GridSize,
+               ImageHeight = Model.ImageHeight,
+               ImageHeightMobile = Model.ImageHeightMobile,
+               GridTotalPadding = Model.GridTotalPadding
+
+           })
+            @if(slide.HasValue("text"))
+            {
+                <div class="owl-caption">
+                    <span>@(slide.GetPropertyValue<string>("text"))</span>
+                </div>
+            }
+        </div>
+    }
+}

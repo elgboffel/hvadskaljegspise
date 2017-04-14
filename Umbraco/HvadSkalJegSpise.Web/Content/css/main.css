@@ -1,0 +1,119 @@
+/*****************************************
+    Code re-used on in severel modules
+******************************************/
+.no-overflow {
+  overflow: hidden;
+}
+button {
+  outline: none !important;
+}
+a {
+  outline: none !important;
+}
+a:hover h1,
+a:hover h2,
+a:hover h3,
+a:hover h4,
+a:hover h5,
+a:hover h6,
+a:hover p,
+a:hover ul,
+a:hover small,
+a:hover time {
+  text-decoration: none;
+}
+a h1,
+a h2,
+a h3,
+a h4,
+a h5,
+a h6,
+a p,
+a ul,
+a small,
+a time {
+  text-decoration: none;
+}
+ul,
+ol {
+  margin-bottom: 25px;
+}
+picture img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+.spacer20 {
+  margin: 20px 0 0 0;
+}
+.spacer20:before,
+.spacer20:after {
+  content: " ";
+  display: table;
+}
+.spacer20:after {
+  clear: both;
+}
+.spacer25 {
+  margin: 25px 0 0 0;
+}
+.spacer25:before,
+.spacer25:after {
+  content: " ";
+  display: table;
+}
+.spacer25:after {
+  clear: both;
+}
+.spacer40 {
+  margin: 20px 0;
+}
+.spacer40:before,
+.spacer40:after {
+  content: " ";
+  display: table;
+}
+.spacer40:after {
+  clear: both;
+}
+.spacer45 {
+  margin: 22.5px 0;
+}
+.spacer45:before,
+.spacer45:after {
+  content: " ";
+  display: table;
+}
+.spacer45:after {
+  clear: both;
+}
+.flex {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  /* Safari fix
+     * See: http://stackoverflow.com/questions/32894387/safari-flexbox-does-not-contain-its-elements-properly
+    */
+}
+.flex.row:before,
+.flex.row:after {
+  display: none;
+}
+.flex-center {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -ms-flex-pack: center;
+      justify-content: center;
+  /* Safari fix
+     * See: http://stackoverflow.com/questions/32894387/safari-flexbox-does-not-contain-its-elements-properly
+    */
+}
+.flex-center.row:before,
+.flex-center.row:after {
+  display: none;
+}
+
+/*# sourceMappingURL=main.css.map */

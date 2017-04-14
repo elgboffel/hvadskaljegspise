@@ -1,0 +1,139 @@
+﻿@inherits UmbracoTemplatePage
+@using Our.Umbraco.LinksPicker.Models
+
+@{
+//Html.RequiresJs("~/scripts/app/search-form.js", 1, 2, new { @defer = string.Empty });
+
+//var website = Model.Content.AncestorOrSelf<Website>();
+}
+
+<div class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="~/content/img/logo.png" alt="Logo">
+                </a>
+            </div>
+            
+            <!-- Menu Hamburger (Default) -->
+            @*<button class="main-menu-indicator" id="open-button">
+                <span class="line"></span>
+            </button>*@
+            
+            <div class="menu-wrap" style="background-image: url(img/nav_bg.jpg)">
+                <div class="menu-content">
+                    <div class="navigation">
+                        <span class="pe-7s-close close-menu" id="close-button"></span>
+                        <div class="search-wrap js-ui-search">
+                            <input class="js-ui-text" placeholder="Search Here..." type="text">
+                            <span class="eks js-ui-close"></span>
+                        </div>
+                    </div>
+                    <nav class="menu">
+                        <div class="menu-list">
+                            <ul>
+                                <li class="menu-item-has-children"><a href="#">Home</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="index.html">- Default</a></li>
+                                        <li><a href="index-architecture.html">- Architecture</a></li>
+                                        <li><a href="index-full-slider.html">- Slider Full Width</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="about.html">About</a></li>
+                                <li class="menu-item-has-children"><a href="#">Portfolio</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="portfolio-2column.html">-Portfolio 2 Column</a></li>
+                                        <li><a href="portfolio-3column.html">-Portfolio 3 Column</a></li>
+                                        <li><a href="portfolio-masonry.html">-Portfolio Masonry</a></li>
+                                        <li><a href="portfolio-dribbble.html">-Portfolio Dribbble</a></li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item-has-children"><a href="#">Blog</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="blog.html">Blog Default</a></li>
+                                        <li><a href="blog-timeline.html">Blog Timeline</a></li>
+                                        <li><a href="single-blog.html">Blog Single</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="contact.html">Contact</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+
+                    <div class="hidden-xs">
+                        <div class="menu-social-media">
+                            <ul>
+                               <li><a href="#"><i class="iconmoon-facebook"></i></a></li>
+                               <li><a href="#"><i class="iconmoon-twitter"></i></a></li>
+                               <li><a href="#"><i class="iconmoon-dribbble3"></i></a></li>
+                               <li><a href="#"><i class="iconmoon-pinterest"></i></a></li>
+                               <li><a href="#"><i class="iconmoon-linkedin2"></i></a></li>
+                            </ul>
+                        </div>
+
+                        <div class="menu-information">
+                            <ul>
+                                <li><span>T:</span> 003 124 115</li>
+                                <li><span>E:</span> info@mail.com</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Menu Hamburger (Default) -->
+
+        </div>
+    </div>
+
+@*<div class="desktop-header hidden-xs">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                @RenderFunctionsMenu(website)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="header-main">
+                    @if(!string.IsNullOrEmpty(website.Logo))
+                    {
+                        <a href="@website.Url" class="header-logo">
+                            @Html.Raw(website.Logo)
+                        </a>
+                    }
+                    @Html.Partial("_DesktopNav", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+
+@*@helper RenderFunctionsMenu(Website website)
+{
+    var links = website.GetPropertyValue<IEnumerable<LinksPickerItem>>("links");
+    <div class="header-menu">
+        <form class="search-form search-form--toggle closed" role="search" action="/soegeside">
+            <input type="text" name="q" value="@Umbraco.GetQueryString("q", "")" class="form-control" placeholder="Søg..." autocomplete="off">
+            <div class="submit" data-action="/soegeside">
+                <svg width="100%" height="100%" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><rect id="Moodbord" x="-333" y="-1457" width="1440" height="3797" style="fill:none;"/><g id="fa-search"><path id="fa-search1" d="M13.846,8.462c0,-1.483 -0.527,-2.751 -1.58,-3.805c-1.054,-1.053 -2.322,-1.58 -3.804,-1.58c-1.483,0 -2.751,0.527 -3.805,1.58c-1.053,1.054 -1.58,2.322 -1.58,3.805c0,1.482 0.527,2.75 1.58,3.804c1.054,1.053 2.322,1.58 3.805,1.58c1.482,0 2.75,-0.527 3.804,-1.58c1.053,-1.054 1.58,-2.322 1.58,-3.804Zm6.154,10c0,0.416 -0.152,0.777 -0.457,1.081c-0.304,0.305 -0.665,0.457 -1.081,0.457c-0.433,0 -0.794,-0.152 -1.082,-0.457l-4.123,-4.11c-1.434,0.993 -3.033,1.49 -4.795,1.49c-1.146,0 -2.242,-0.222 -3.288,-0.667c-1.045,-0.445 -1.947,-1.046 -2.704,-1.803c-0.757,-0.757 -1.358,-1.659 -1.803,-2.704c-0.445,-1.046 -0.667,-2.142 -0.667,-3.287c0,-1.146 0.222,-2.242 0.667,-3.288c0.445,-1.045 1.046,-1.947 1.803,-2.704c0.757,-0.757 1.659,-1.358 2.704,-1.803c1.046,-0.445 2.142,-0.667 3.288,-0.667c1.145,0 2.241,0.222 3.287,0.667c1.045,0.445 1.947,1.046 2.704,1.803c0.757,0.757 1.358,1.659 1.803,2.704c0.445,1.046 0.667,2.142 0.667,3.288c0,1.762 -0.497,3.361 -1.49,4.795l4.122,4.123c0.297,0.296 0.445,0.657 0.445,1.082Z" style="fill:#b4b5a2;fill-rule:nonzero;"/></g></svg>
+            </div>
+        </form>
+        <div class="header-menu-links">
+            @if(links.Any())
+            {
+                foreach(var link in links)
+                {
+                    <a href="@link.Url" target="@link.Target">@link.Name</a>
+                }
+            }
+            @if (!string.IsNullOrEmpty(website.LoginUrl))
+            {
+                <a class="header-login" href="@website.LoginUrl">
+                    <svg width="100%" height="100%" viewBox="0 0 13 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><rect id="Moodbord" x="-372" y="-1458" width="1440" height="3797" style="fill:none;"/><g id="fa-lock"><path id="fa-lock1" d="M3.409,6.818l5.455,0l0,-2.045c0,-0.753 -0.267,-1.396 -0.799,-1.929c-0.533,-0.532 -1.176,-0.799 -1.929,-0.799c-0.752,0 -1.395,0.267 -1.928,0.799c-0.533,0.533 -0.799,1.176 -0.799,1.929l0,2.045Zm8.864,1.023l0,6.136c0,0.284 -0.1,0.526 -0.299,0.725c-0.198,0.199 -0.44,0.298 -0.724,0.298l-10.227,0c-0.284,0 -0.526,-0.099 -0.725,-0.298c-0.199,-0.199 -0.298,-0.441 -0.298,-0.725l0,-6.136c0,-0.284 0.099,-0.526 0.298,-0.725c0.199,-0.198 0.441,-0.298 0.725,-0.298l0.341,0l0,-2.045c0,-1.307 0.468,-2.429 1.406,-3.367c0.937,-0.937 2.06,-1.406 3.366,-1.406c1.307,0 2.429,0.469 3.367,1.406c0.937,0.938 1.406,2.06 1.406,3.367l0,2.045l0.341,0c0.284,0 0.526,0.1 0.724,0.298c0.199,0.199 0.299,0.441 0.299,0.725Z" style="fill:#b4b5a2;fill-rule:nonzero;"/></g></svg>
+                </a>
+            }
+        </div>
+    </div>
+}*@
+

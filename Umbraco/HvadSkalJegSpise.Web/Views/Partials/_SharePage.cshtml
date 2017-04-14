@@ -1,0 +1,135 @@
+﻿@inherits UmbracoTemplatePage
+@using System.Collections.Specialized;
+@{
+    var model = new SharePageModel();
+    model.EnableFacebook = true;
+    model.EnableTwitter = true;
+    model.EnableGooglePlus = false;
+    model.EnableLinkedIn = true;
+    model.EnableEmail = true;
+    model.EnablePrint = false; // Remeber to style print
+}
+<ul id="share-list" class="share-list">
+    <li class="heading">@Umbraco.GetDictionaryValue("Share Control", "Share on")</li>
+    @if (model.EnableFacebook)
+    {
+        var encodedUrl = HttpUtility.UrlEncode(Model.Content.UrlAbsolute());
+        <li class="share-item facebook">
+            <a class="share-link"
+               href="https://www.facebook.com/sharer/sharer.php?u=@encodedUrl"
+               title="@Umbraco.GetDictionaryValue("Share on Facebook", "Share on Facebook")"
+               onclick="PopupCenter(this.href, this.title, 400, 300)">
+                <span class="fa fa-facebook"></span>
+            <span class="sr-only">@Umbraco.GetDictionaryValue("Share on Facebook", "Share on Facebook")</span></a>
+        </li>
+    }
+    @if (model.EnableTwitter)
+    {
+        var encodedUrl = HttpUtility.UrlEncode(Model.Content.UrlAbsolute());
+        <li class="share-item twitter">
+            <a class="share-link"
+               href="https://twitter.com/home?status=@encodedUrl"
+               title="@Umbraco.GetDictionaryValue("Share on Twitter", "Share on Twitter")"
+               onclick="PopupCenter(this.href, this.title, 400, 300)">
+                <span class="fa fa-twitter"></span>
+                <span class="sr-only">@Umbraco.GetDictionaryValue("Share on Twitter", "Share on Twitter")</span>
+            </a>
+        </li>
+    }
+    @if (model.EnableGooglePlus)
+    {
+        var encodedUrl = HttpUtility.UrlEncode(Model.Content.UrlAbsolute());
+        <li class="share-item google-plus">
+            <a class="share-link"
+               href="https://plus.google.com/share?url=@encodedUrl"
+               title="@Umbraco.GetDictionaryValue("Share on Google+", "Share on Google+")"
+               onclick="PopupCenter(this.href, this.title, 400, 300)">
+                <span class="fa fa-google-plus"></span>
+                <span class="sr-only">@Umbraco.GetDictionaryValue("Share on Google+", "Share on Google+")</span>
+            </a>
+        </li>
+    }
+    @if (model.EnableLinkedIn)
+    {
+        //https://www.linkedin.com/shareArticle?mini=true&url=http%3A//www.sharelinkgenerator.com/&title=%7Btitle%7D&summary=%7Bsummary%7D&source=
+        NameValueCollection nvc = HttpUtility.ParseQueryString("");
+        nvc.Add("url", Model.Content.UrlAbsolute());
+        nvc.Add("title", Model.Content.GetPropertyValue<string>("ogTitle", Model.Content.Name));
+        // Optionals
+        nvc.Add("summary", Model.Content.GetPropertyValue<string>("ogDescription", false, ""));
+        nvc.Add("source", Model.Content.UrlAbsolute());
+        <li class="share-item linkedin">
+            <a class="share-link"
+               href="https://www.linkedin.com/shareArticle?@nvc.ToString()"
+               title="@Umbraco.GetDictionaryValue("Share on LinkedIn", "Share on LinkedIn")"
+               onclick="PopupCenter(this.href, this.title, 400, 300)">
+                <span class="fa fa-linkedin"></span>
+                <span class="sr-only">@Umbraco.GetDictionaryValue("Share on LinkedIn", "Share on LinkedIn")</span>
+            </a>
+        </li>
+    }
+    @if (model.EnableEmail)
+    {
+        // mailto:1?&cc=3&bcc=4&subject=2&body=5
+        NameValueCollection nvc = HttpUtility.ParseQueryString("");
+        //nvc.Add("cc", Model.Content.UrlAbsolute());
+        //nvc.Add("bcc", Model.Content.UrlAbsolute());
+        nvc.Add("subject", Model.Content.GetPropertyValue<string>("ogTitle", Model.Content.Name));
+        nvc.Add("body", Model.Content.GetPropertyValue<string>("ogDescription"));
+        <li class="share-item email">
+            <a class="share-link"
+               href="mailto:?@nvc.ToString()"
+               title="@Umbraco.GetDictionaryValue("Share by Email", "Share by Email")">
+                <span class="fa fa-share"></span>
+                <span class="sr-only">@Umbraco.GetDictionaryValue("Share by Email", "Share by Email")</span>
+            </a>
+        </li>
+    }
+    @if (model.EnablePrint)
+    {
+        <li class="share-item print">
+            <a class="share-link"
+               href="#!"
+               onclick="print()"
+               title="@Umbraco.GetDictionaryValue("Share by Print", "Print and share")">
+                <span class="fa fa-print"></span>
+                <span class="sr-only">@Umbraco.GetDictionaryValue("Share by Print", "Print and share")</span>
+            </a>
+        </li>
+    }
+</ul>
+<script>
+    function PopupCenter(url, title, w, h) {
+        if (event.preventDefault)
+            event.preventDefault();
+        else
+            event.returnValue = false;
+
+        // Fixes dual-screen position                         Most browsers      Firefox
+        var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : screen.left;
+        var dualScreenTop = window.screenTop != undefined ? window.screenTop : screen.top;
+
+        var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+        var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+        var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+        var top = ((height / 2) - (h / 2)) + dualScreenTop;
+        var newWindow = window.open(url, title, 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+
+        // Puts focus on the newWindow
+        if (window.focus) {
+            newWindow.focus();
+        }
+    }
+</script>
+@functions {
+    public class SharePageModel
+    {
+        public bool EnableFacebook { get; set; }
+        public bool EnableEmail { get; set; }
+        public bool EnableTwitter { get; set; }
+        public bool EnableGooglePlus { get; set; }
+        public bool EnableLinkedIn { get; set; }
+        public bool EnablePrint { get; set; }
+    }
+}

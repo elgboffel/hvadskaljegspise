@@ -1,0 +1,37 @@
+﻿@inherits UmbracoViewPage<BreadcrumbViewModel>
+@using Danva.Web.Models.ComponentModels
+
+@{
+    var startNode = Model.CurrentPage;
+    var siteRoot = startNode.AncestorOrSelf(1);
+
+    var crumbs = new List<IPublishedContent>();
+    crumbs.AddRange(startNode.AncestorsOrSelf().Where(p => p.Level > 1).OrderBy(p => p.Level));
+
+    if (crumbs.Any())
+    {
+        @RenderBreadcrumbs(crumbs, startNode, siteRoot)
+    }
+}
+
+@helper RenderBreadcrumbs(List<IPublishedContent> breadcrumbs, IPublishedContent startNode, IPublishedContent siteRoot)
+{
+    <ul class="breadcrumb">
+        <li><a href="@siteRoot.Url">Forside</a></li>
+        @foreach (var crumb in breadcrumbs)
+        {
+            bool active = crumb.Equals(startNode);
+            <li class="@(active ? "active" : string.Empty)">
+                @if (active && Model.ShowCurrentPage != false)
+                {
+                    <span class="arrow"></span>
+                    @crumb.Name
+                }
+                else
+                {
+                    <a href="@crumb.Url"><span class="arrow"></span>@crumb.Name</a>
+                }
+            </li>
+        }
+    </ul>
+}

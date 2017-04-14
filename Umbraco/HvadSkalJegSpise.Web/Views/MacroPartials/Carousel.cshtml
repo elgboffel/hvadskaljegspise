@@ -1,0 +1,74 @@
+﻿@using Newtonsoft.Json.Linq
+@using Newtonsoft.Json
+@inherits Umbraco.Web.Macros.PartialViewMacroPage
+
+@{
+
+    Html.RequiresCss("~/Content/components/owl-carousel/css/owl.carousel.css", 201)
+            .RequiresCss("~/Content/components/owl-carousel/css/owl.transitions.css", 202)
+            .RequiresJs("~/Content/components/owl-carousel/js/owl.carousel.min.js", 203)
+            .RequiresJs("~/scripts/app/carousel.jquery.js", 204);
+
+    dynamic sliderData = (!String.IsNullOrEmpty(Model.MacroParameters["carousel"].ToString())) ?
+    Json.Decode((dynamic)HttpUtility.HtmlDecode(Model.MacroParameters["carousel"].ToString())) : null;
+}
+
+@{
+    //If carousel has more than one slide
+    //bool ifSingleCarousel = carousel.Count() == 1;
+    if (sliderData != null)
+    {
+        <div class="grid-carousel">
+            <div class="owl-carousel"
+                    data-options='{"transitionStyle": "fade",
+                    "navigationText" : ["",""],
+                    "navigation": true,
+                    "slideSpeed": 300,
+                    "paginationSpeed": 400,
+                    "singleItem":true,
+                    "autoHeight" : true}'>
+                @foreach (var slide in sliderData)
+                {
+                    @RenderSlide(slide)
+                }
+            </div>
+        </div>
+    }
+}
+
+@helper RenderSlide(dynamic slide)
+{
+    if (slide.media != null)
+    {
+        var mediaId = slide.media.id;
+        IPublishedContent media = Umbraco.TypedMedia(mediaId);
+
+        <div class="item">
+            @RenderImage(media)
+            <div class="caption">
+                <p>@slide.summary</p>
+            </div>
+        </div>
+    }
+}
+
+@helper RenderImage(IPublishedContent image)
+{
+    var picture = Umbraco.Picture(image)
+    .Source("(min-width:1200px)", image.GetCropUrl(width: ResizeImage(1170, 8, 40), height: 520, preferFocalPoint: true))
+    .Source("(min-width:992px)", image.GetCropUrl(width: ResizeImage(970, 8, 40), height: 520, preferFocalPoint: true))
+    .Source("(min-width:768px)", image.GetCropUrl(width: ResizeImage(750, 12, 40), height: 520, preferFocalPoint: true))
+    .Source("(min-width:480px)", image.GetCropUrl(width: ResizeImage(750, 12, 40), height: 300, preferFocalPoint: true))
+    .Srcset(image.GetCropUrl(width: ResizeImage(462, 12, 40),  height: 300, preferFocalPoint: true))
+    .Alt(image.Name);
+
+    @picture.Html();
+}
+
+@functions {
+    private int ResizeImage(int containerSize, int gridSize, int gridPadding)
+    {
+        int size = (((containerSize / 12) + 1) * gridSize) - gridPadding;
+        return size;
+    }
+}

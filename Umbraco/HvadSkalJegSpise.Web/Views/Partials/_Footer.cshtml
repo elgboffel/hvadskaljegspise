@@ -1,0 +1,140 @@
+﻿@inherits UmbracoViewPage
+@using Our.Umbraco.LinksPicker.Models
+
+@{
+
+//var website = Model.AncestorOrSelf<contentModels.Website>();
+//var footer = website.Layout;
+
+}
+<div class="footer margin-top">
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-2 col-sm-4 col-xs-12">
+                        <div class="footer-inner">
+                            <div class="footer-content">
+                                <h4>H.S.J.S THEME</h4>
+                                    <address>
+                                        City 35 AM <br>
+                                        Street 1395 p.n <br>
+                                        your Country
+                                    </address>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 col-md-push-8 col-sm-4 col-xs-12">
+                        <div class="footer-inner">
+                            <div class="footer-content">
+                               <h4>CONTACT INFO</h4>
+                                <p>
+                                    T:003 124 115 <br>
+                                    E:info@mail.com <br>
+                                    W:www.website.com
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="footer-inner">
+                            <div class="footer-content">
+                            <ul class="social-media">
+                                <li><a href="#"><i class="iconmoon-facebook"></i></a></li>
+                                <li><a href="#"><i class="iconmoon-twitter"></i></a></li>
+                                <li><a href="#"><i class="iconmoon-flickr2"></i></a></li>
+                                <li><a href="#"><i class="iconmoon-dribbble3"></i></a></li>
+                                <li><a href="#"><i class="iconmoon-pinterest"></i></a></li>
+                                <li><a href="#"><i class="iconmoon-linkedin2"></i></a></li>
+                            </ul>
+                            <span class="copyright-mark">© 2015 OAK, ALL RIGHTS RESERVED</span>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+@*<footer class="page-footer">
+    <div class="container">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                        <div class="line-border-thin-skew"></div>
+                    <div class="footer-head">
+                        @if (!string.IsNullOrEmpty(website.Logo))
+                        {
+                            <div class="footer-logo">
+                                @Html.Raw(website.Logo)
+                            </div>
+                        }
+                        @Html.CachedPartial(
+                            "Components/_SoMe",
+                            new SoMeViewModel
+                            {
+                                TwitterUrl = website.TwitterLink,
+                                FacebookUrl = website.FacebookLink,
+                                YouTubeUrl = website.YoutubeLink
+                            },
+                            3600
+                       )
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                @foreach(var item in footer)
+                {
+                    <div class="col-xs-12 col-sm-6 col-md-3 flex">
+                        @switch (item.DocumentTypeAlias)
+                        {
+                            case "multipleLinks":
+                                @renderLinks(item) break;
+
+                            default:
+                                @renderRte(item) break;
+                        }
+                    </div>
+                }
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="sub-footer">
+                        <div class="line-border-thin-skew"></div>
+                        @Html.Raw(website.SubFooter)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>*@
+
+@helper renderLinks(IPublishedContent multipleLinks)
+{
+    var links = multipleLinks
+        .GetPropertyValue("links", Enumerable.Empty<LinksPickerItem>()) ;
+
+    <div class="footer-links">
+        @if (multipleLinks.HasValue("headline"))
+        {
+            <h5>@Html.Raw(multipleLinks.GetPropertyValue<string>("headline"))</h5>
+        }
+        @if(links.Any())
+        {
+            <ul class="list-unstyled">
+                @foreach(var link in links)
+                {
+                    <li><a href="@link.Url" target="@link.Target">@link.Name</a></li>
+                }
+            </ul>
+        }
+    </div>
+}
+
+@helper renderRte(IPublishedContent rte)
+{
+    if(rte.HasValue("rte"))
+    {
+        <div class="footer-rte">
+            @Html.Raw(rte.GetPropertyValue<IHtmlString>("rte", null))
+        </div>
+    }
+}

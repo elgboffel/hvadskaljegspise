@@ -1,0 +1,39 @@
+﻿@inherits UmbracoViewPage<ListViewModel>
+@using BaseSite.Web.Models.ComponentModels
+
+<div class="list">
+    @if(!string.IsNullOrEmpty(Model.Headline)){
+        <h2>@Html.Raw(Model.Headline)</h2>
+    }
+
+    @foreach(var item in Model.List)
+    {
+        @RenderList(item)
+    }
+</div>
+
+@helper RenderList(IPublishedContent listItem)
+{
+    <div class="list-item">
+        <a href="@listItem.Url">
+            @if(listItem.HasValue("date") || listItem.HasValue("startDate"))
+            {
+                <time class="trumpet">@(listItem.GetPropertyValue<DateTime>("startDate", listItem.GetPropertyValue<DateTime>("date")).ToString("d. MMMM yyyy"))</time>
+            }
+            <h3>@Html.Raw(listItem.GetPropertyValue<string>("headline", listItem.Name))</h3>
+            @if(listItem.HasValue("lead") && Model.ShowLead != false)
+            {
+                <p>@(listItem.GetPropertyValue<string>("lead"))</p>
+            }
+        </a>
+        @if(Model.ShowBreadcrumb != false)
+        {
+            @Html.Partial("Modules/_Breadcrumb", new BreadcrumbViewModel
+            {
+                CurrentPage = listItem,
+                ShowCurrentPage = false
+            })
+        }
+        <div class="spacer45"></div>
+    </div>
+}

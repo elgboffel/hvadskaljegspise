@@ -1,0 +1,18 @@
+﻿@inherits UmbracoViewPage<LeBlenderModel>
+@using Lecoati.LeBlender.Extension.Models
+@using Danva.Web.Models.ComponentModels
+
+@foreach (var item in Model.Items)
+{
+    @renderContent(item)
+}
+
+@helper renderContent(LeBlenderValue content)
+{
+    string htmlSnippet = content.GetValue("html") as string + "";
+    string value = HttpUtility.HtmlDecode(htmlSnippet);
+    if (!string.IsNullOrWhiteSpace(value))
+    {
+            @Html.Raw(value)
+    }
+}

@@ -1,0 +1,199 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@using ClientDependency.Core.Mvc
+@using Our.Umbraco.LinksPicker.Models
+@using Danva.Web.Models.ModelsBuilder
+@{
+    Html.RequiresJs("~/scripts/app/tree-menu.js", 1, 2, new { @defer = string.Empty })
+        .RequiresJs("~/content/components/handlebars/handlebars.min.js", 1, 2, new { @defer = string.Empty });
+
+    var webroot = Model.Content.AncestorOrSelf<Website>();
+
+    var logo = webroot.GetPropertyValue<string>("logo");
+
+
+    IEnumerable<IPublishedContent> children = Model.Content
+        .AncestorOrSelf(1)
+        .Children()
+        .Where(c => c.IsVisible() && !c.IsDocumentType("frontPage"));
+
+    var setLevelRoot = 2;
+    var maxLevelsRandered = 1;
+
+    var links = webroot.GetPropertyValue<IEnumerable<LinksPickerItem>>("links");
+}
+
+<div class="mobile-navbar visible-xs">
+    @if(webroot.HasValue("logo"))
+    {
+        <a href="@webroot.Url" class="mobile-header-logo">
+            @Html.Raw(logo)
+        </a>
+    }
+    <div class="mobile-trigger-container visible-xs">
+        <a class="mobile-trigger" href="#">
+            <span class="mobile-icon"></span>
+        </a>
+    </div>
+    <nav id="tree-menu" class="tree-menu tree-accordion mobile-expander">
+        <a href="@webroot.Url" class="mobile-header-logo-alt">
+            <svg width="100%" height="100%" viewBox="0 0 181 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><rect id="Moodbord" x="-419" y="-1457" width="1440" height="3797" style="fill:none;"></rect><g id="Danva"><path d="M53.13,5.062l-2.322,0l0,29.474l2.322,0l0,-29.474Zm5.985,0l-3.994,0l0,2.099l3.994,0c8.797,0 13.62,5.492 13.62,12.593c0,7.011 -4.823,12.683 -13.62,12.683l-3.994,0l0,2.098l3.994,0c10.315,0 16.032,-6.43 16.032,-14.781c0,-8.44 -5.717,-14.692 -16.032,-14.692m39.7,29.473l2.456,0l-12.593,-29.92l-0.938,0l-0.759,1.697l11.834,28.223Zm-23.713,0l2.411,0l2.903,-7.01l13.248,0l-0.848,-2.099l-11.507,0l5.753,-13.72l-1.161,-2.814l-10.799,25.643Zm51.132,0.447l0.938,0l0,-2.501l-21.882,-27.866l-0.894,0l0,2.456l21.838,27.911Zm0.938,-5.739l0,-24.181l-2.323,0l0,21.323l2.323,2.858Zm-22.776,5.292l2.322,0l0,-21.213l-2.322,-2.903l0,24.116Zm28.402,-29.473l-2.501,0l12.638,29.92l0.938,0l0.759,-1.83l-11.834,-28.09Zm23.669,0l-2.502,0l-9.468,22.6l1.25,2.902l10.72,-25.502Zm21.077,29.473l2.456,0l-12.593,-29.92l-0.938,0l-0.759,1.697l11.834,28.223Zm-23.713,0l2.411,0l2.903,-7.01l13.228,0l-0.848,-2.099l-11.353,-0.343l5.63,-13.419l-1.161,-2.813l-10.81,25.684Z" style="fill:#231f20;fill-rule:nonzero;"></path><path d="M37.941,22.532l-1.871,-1.635c-0.023,0.552 -0.068,1.097 -0.133,1.635c-1.075,8.882 -7.802,15.726 -15.941,15.726c-8.14,0 -14.866,-6.844 -15.942,-15.726c-0.022,-0.181 -0.042,-0.364 -0.06,-0.547l-2.03,-1.849l-1.88,1.75c0.022,0.216 0.047,0.431 0.076,0.646c1.298,9.74 9.683,17.256 19.836,17.256c10.151,0 18.537,-7.516 19.835,-17.256c0.085,-0.633 0.139,-1.275 0.161,-1.925l-2.051,1.925Zm-32.525,-0.039c0,0 5.738,-1.391 14.414,-1.391c8.676,0 14.554,1.391 14.554,1.391c0,0 0.75,-2.764 0.026,-4.963c0,0 -5.738,1.391 -14.414,1.391c-8.676,0 -14.554,-1.391 -14.554,-1.391c-0.905,2.431 -0.026,4.963 -0.026,4.963Zm34.436,-5.079c-1.229,-9.817 -9.649,-17.414 -19.856,-17.414c-10.207,0 -18.629,7.597 -19.857,17.414c-0.071,0.564 -0.117,1.137 -0.139,1.715l1.963,-1.715l1.955,1.835c0.024,-0.62 0.074,-1.232 0.151,-1.835c1.121,-8.824 7.824,-15.605 15.927,-15.605c8.102,0 14.804,6.781 15.926,15.605c0.025,0.191 0.047,0.384 0.065,0.577l1.954,1.819l1.977,-1.799c-0.02,-0.2 -0.041,-0.399 -0.066,-0.597Z" style="fill:#005a84;"></path></g></svg>
+        </a>
+        <div id="menu-wrapper" class="menu-wrapper depth-@(Model.Content.Level - setLevelRoot)">
+            @RenderTreeMenu(children, setLevelRoot, maxLevelsRandered)
+        </div>
+        <form class="search-form search-form--toggle closed" role="search" action="/soegeside">
+            <input type="text" name="q" value="@Umbraco.GetQueryString("q", "")" class="form-control" placeholder="Søg..." autocomplete="off">
+            <div class="submit" data-action="/soegeside">
+                <svg width="100%" height="100%" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><rect id="Moodbord" x="-333" y="-1457" width="1440" height="3797" style="fill:none;"/><g id="fa-search"><path id="fa-search1" d="M13.846,8.462c0,-1.483 -0.527,-2.751 -1.58,-3.805c-1.054,-1.053 -2.322,-1.58 -3.804,-1.58c-1.483,0 -2.751,0.527 -3.805,1.58c-1.053,1.054 -1.58,2.322 -1.58,3.805c0,1.482 0.527,2.75 1.58,3.804c1.054,1.053 2.322,1.58 3.805,1.58c1.482,0 2.75,-0.527 3.804,-1.58c1.053,-1.054 1.58,-2.322 1.58,-3.804Zm6.154,10c0,0.416 -0.152,0.777 -0.457,1.081c-0.304,0.305 -0.665,0.457 -1.081,0.457c-0.433,0 -0.794,-0.152 -1.082,-0.457l-4.123,-4.11c-1.434,0.993 -3.033,1.49 -4.795,1.49c-1.146,0 -2.242,-0.222 -3.288,-0.667c-1.045,-0.445 -1.947,-1.046 -2.704,-1.803c-0.757,-0.757 -1.358,-1.659 -1.803,-2.704c-0.445,-1.046 -0.667,-2.142 -0.667,-3.287c0,-1.146 0.222,-2.242 0.667,-3.288c0.445,-1.045 1.046,-1.947 1.803,-2.704c0.757,-0.757 1.659,-1.358 2.704,-1.803c1.046,-0.445 2.142,-0.667 3.288,-0.667c1.145,0 2.241,0.222 3.287,0.667c1.045,0.445 1.947,1.046 2.704,1.803c0.757,0.757 1.358,1.659 1.803,2.704c0.445,1.046 0.667,2.142 0.667,3.288c0,1.762 -0.497,3.361 -1.49,4.795l4.122,4.123c0.297,0.296 0.445,0.657 0.445,1.082Z" style="fill:#b4b5a2;fill-rule:nonzero;"/></g></svg>
+            </div>
+        </form>
+        @if (!string.IsNullOrEmpty(webroot.LoginUrl))
+        {
+            <a class="header-login" href="@webroot.LoginUrl">
+                <svg width="100%" height="100%" viewBox="0 0 13 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><rect id="Moodbord" x="-372" y="-1458" width="1440" height="3797" style="fill:none;"/><g id="fa-lock"><path id="fa-lock1" d="M3.409,6.818l5.455,0l0,-2.045c0,-0.753 -0.267,-1.396 -0.799,-1.929c-0.533,-0.532 -1.176,-0.799 -1.929,-0.799c-0.752,0 -1.395,0.267 -1.928,0.799c-0.533,0.533 -0.799,1.176 -0.799,1.929l0,2.045Zm8.864,1.023l0,6.136c0,0.284 -0.1,0.526 -0.299,0.725c-0.198,0.199 -0.44,0.298 -0.724,0.298l-10.227,0c-0.284,0 -0.526,-0.099 -0.725,-0.298c-0.199,-0.199 -0.298,-0.441 -0.298,-0.725l0,-6.136c0,-0.284 0.099,-0.526 0.298,-0.725c0.199,-0.198 0.441,-0.298 0.725,-0.298l0.341,0l0,-2.045c0,-1.307 0.468,-2.429 1.406,-3.367c0.937,-0.937 2.06,-1.406 3.366,-1.406c1.307,0 2.429,0.469 3.367,1.406c0.937,0.938 1.406,2.06 1.406,3.367l0,2.045l0.341,0c0.284,0 0.526,0.1 0.724,0.298c0.199,0.199 0.299,0.441 0.299,0.725Z" style="fill:#b4b5a2;fill-rule:nonzero;"/></g></svg>
+            </a>
+        }
+        <ul class="mobile-functions-menu list-unstyled">
+            @if(links.Any())
+            {
+                foreach(var link in links)
+                {
+                    <li>
+                        <a class="link" href="@link.Url" target="@link.Target">@link.Name</a>
+                    </li>
+                }
+            }
+        </ul>
+    </nav>
+</div>
+
+
+
+
+@helper RenderTreeMenu(IEnumerable<IPublishedContent> treeMenu, int setLevelRoot, int maxLevel)
+{
+    <ol data-level="0">
+        @foreach (IPublishedContent child in treeMenu)
+        {
+            IEnumerable<IPublishedContent> children = child.Children()
+                .Where(c => c.IsVisible());
+
+            bool hasChildren = children.Any();
+
+            bool path = child.IsAncestorOrSelf(Model.Content);
+
+            string hasIcon = child.HasValue("icon") ? "svg-nav-link" : null;
+
+
+            <li class="accordion l-@(child.Level - setLevelRoot) @Umbraco.If(hasChildren, "hc") @Umbraco.If(path, "ancestor nav-open")">
+                @if (hasChildren)
+                {
+
+                    <span class="e-p">
+                        <a class="@(hasIcon)" href="@child.Url">
+                            @child.Name
+                        @if(child.HasValue("icon"))
+                        {
+                            @RenderSvg(child)
+                        }
+                        </a>
+                        <a class="exp" href="#">
+                            <span></span>
+                        </a>
+                    </span>
+                    @RenderChildren(children, child, setLevelRoot, maxLevel)
+                }
+                else
+                {
+                    <a class="@(hasIcon)" href="@child.Url">
+                        @if (child.HasValue("icon"))
+                        {
+                            @RenderSvg(child)
+                        }
+                        @child.Name
+                    </a>
+
+                }
+            </li>
+        }
+    </ol>
+}
+
+@helper RenderChildren(IEnumerable<IPublishedContent> children, IPublishedContent parent, int setLevelRoot, int maxLevel)
+{
+    var firstChildLevel = children.FirstOrDefault().Level;
+    if (parent.IsAncestor(Model.Content) || (firstChildLevel - setLevelRoot) <= maxLevel)
+    {
+        int level = firstChildLevel - setLevelRoot;
+        <ol data-level="@level">
+            @if (parent.IsAncestor(Model.Content) || ((firstChildLevel - setLevelRoot) > 1 && (firstChildLevel - setLevelRoot) < maxLevel))
+            {
+                <li class="up u-w">
+                    <a href="#" class="bck">
+                        <span></span>
+                    </a>
+                    <a href="@parent.Url">@parent.Name</a>
+                </li>
+            }
+            @foreach (IPublishedContent child in children)
+            {
+
+                IEnumerable<IPublishedContent> subChildren = child.Children()
+                    .Where(c => c.IsVisible());
+
+                bool hasChildren = subChildren.Any();
+                bool path = child.IsAncestorOrSelf(Model.Content) && child.Id != Model.Content.Id;
+
+                <li class="l-@(level) @Umbraco.If(hasChildren, "hc") @Umbraco.If(child.Id == Model.Content.Id, "current") @Umbraco.If(path, "ancestor nav-open")">
+                    @if (hasChildren)
+                    {
+                        <span class="e-w">
+                            <a href="@child.Url">@child.Name</a>
+                            <a data-id="@child.Id" href="#" class="exp">
+                                <span></span>
+                            </a>
+                        </span>
+                        @RenderChildren(subChildren, child, setLevelRoot, maxLevel)
+                    }
+                    else
+                    {
+                        <a href="@child.Url">@child.Name</a>
+                    }
+                </li>
+            }
+        </ol>
+    }
+}
+
+@helper RenderSvg(IPublishedContent node) {
+    <div class="svg-nav-icon">
+        @Html.Raw(node.GetPropertyValue<string>("icon"))
+    </div>
+}
+
+<script id="tree-menu-list" type="text/template">
+    <ol data-level="{{level}}">
+        <li class="up u-w">
+            <a href="#" class="bck">
+                <span></span>
+            </a>
+            <a href="{{parent.url}}">{{parent.name}}</a>
+        </li>
+        {{#each children}}
+            {{#if this.hasChildren}}
+            <li class="l-{{this.level}} hc">
+                <span class="e-w">
+                    <a href="{{this.url}}">{{this.name}}</a>
+                    <a data-id="{{id}}" href="#" class="exp">
+                        <span></span>
+                    </a>
+                </span>
+            </li>
+            {{else}}
+            <li>
+                <a href="{{this.url}}">{{this.name}}</a>
+            </li>
+            {{/if}}
+        {{/each}}
+    </ol>
+</script>

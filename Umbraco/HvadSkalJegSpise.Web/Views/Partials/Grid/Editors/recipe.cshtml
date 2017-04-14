@@ -1,0 +1,20 @@
+﻿@inherits UmbracoViewPage<LeBlenderModel>
+@using Lecoati.LeBlender.Extension.Models
+@using Umbraco.Web
+
+@{
+
+    foreach (var item in Model.Items)
+    {
+        @renderContent(item)
+    }
+}
+
+@helper renderContent(LeBlenderValue content)
+{
+    var recipe = content.GetValue<string>("recipe");
+    <blockquote>
+        @Html.Raw(Umbraco.ReplaceLineBreaksForHtml(recipe))
+    </blockquote>
+   
+}

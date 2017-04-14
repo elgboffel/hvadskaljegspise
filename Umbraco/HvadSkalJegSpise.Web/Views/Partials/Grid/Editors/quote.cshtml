@@ -1,0 +1,26 @@
+﻿@inherits UmbracoViewPage<LeBlenderModel>
+@using Lecoati.LeBlender.Extension.Models
+@using Danva.Web.Models.ComponentModels
+
+@foreach (var item in Model.Items)
+{
+    @renderContent(item)
+}
+
+@helper renderContent(LeBlenderValue content)
+{
+    var gridPosition = content.GetValue<string>("gridPosition");
+    var position = !string.IsNullOrEmpty(gridPosition) ? gridPosition : "141";
+
+     <div class="quote position-@position">
+        <svg width="100%" height="100%" viewBox="0 0 32 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><rect id="Moodbord" x="-192" y="-1507" width="1440" height="5704" style="fill:none;"/><path d="M13.356,0l-13.356,0l0,20l8.904,0l4.452,-20Zm18.632,0l-13.358,0l0,20l8.904,0l4.454,-20Z" style="fill:#9b9c83;fill-rule:nonzero;"/></svg>
+        @if(content.HasProperty("quote"))
+        {
+            <p class="quote-text">@Html.Raw(content.GetValue("quote"))</p>
+        }
+        @if (content.HasProperty("byline"))
+        {
+            <small class="quote-byline">@Html.Raw(content.GetValue<string>("byline"))</small>
+        }
+     </div>
+}

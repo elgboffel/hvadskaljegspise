@@ -1,0 +1,116 @@
+﻿@inherits UmbracoViewPage<LeBlenderModel>
+@using Lecoati.LeBlender.Extension.Models
+@using Danva.Web.Models.ComponentModels
+@using Danva.Web.Models.ModelsBuilder
+@using Umbraco.Web
+
+@foreach (var item in Model.Items)
+{
+        @renderContent(item)
+}
+
+@helper renderContent(LeBlenderValue content)
+{
+    var contentPicker = content.GetValue<IEnumerable<IPublishedContent>>("contentPicker");
+    var pickedContent = contentPicker != null ? contentPicker.FirstOrDefault() : null;
+    if (pickedContent != null)
+    {
+        var contentAlias = pickedContent.DocumentTypeAlias;
+        <div class="frontpage-list">
+            <div class="panel">
+                <h4>@Html.Raw(content.GetValue<string>("headline"))</h4>
+                    <a href="@pickedContent.Url">Læs mere<i class="arrow"></i></a>
+            </div>
+            <div class="list-box">
+                @switch(contentAlias)
+                {
+                        case "landingpage":
+                            @renderList(pickedContent
+                                .Descendants<GridPage>()
+                                .OrderByDescending(x => x.GetPropertyValue("date", x.CreateDate))
+                                .Take(2), contentAlias) break;
+
+                        case "consultationList":
+                            @renderList(pickedContent
+                                .Descendants<ConsultationPage>()
+                                .OrderByDescending(x => x.GetPropertyValue("date", x.CreateDate))
+                                .Take(5), contentAlias) break;
+
+                        default:
+                            @renderList(pickedContent
+                                .Descendants<NewsPage>()
+                                .OrderByDescending(x => x.GetPropertyValue("date", x.CreateDate))
+                                .Take(3), contentAlias) break;
+                }
+                <div class="list-box-spacer"></div>
+            </div>
+        </div>
+    }
+}
+
+@helper renderList(IEnumerable<IPublishedContent> list, string alias)
+{
+
+    for (var i = 0; i < list.Count(); i++)
+    {
+        var element = list.ElementAt(i);
+        if (alias == "landingpage")
+        {
+            @renderAltItem(element, i)
+        }
+        else
+        {
+            @renderdefaultItem(element, i)
+        }
+    }
+}
+
+@helper renderdefaultItem(IPublishedContent page, int index)
+{
+    <div class="card-small">
+        @if (index != 0)
+        {
+            <div class="line-border-thin-skew-right"></div>
+        }
+        @Html.Partial(
+     "Components/_Card",
+     new CardViewModel
+     {
+        Image = page.GetPropertyValue("teaserImage", page.GetPropertyValue("heroImage", Enumerable.Empty<IPublishedContent>())).FirstOrDefault(),
+        TypedWidth = 150,
+        ImageHeight = 150,
+        MobileImageHeight = 250,
+        Truncate = 75,
+        Url = page.Url,
+        Date = page.GetPropertyValue<DateTime>("date").ToString("d/M yyyy", System.Globalization.CultureInfo.InvariantCulture),
+        Headline = page.GetPropertyValue<string>("teaserHeadline",
+                            page.GetPropertyValue<string>("headline", page.Name)),
+        Lead = page.GetPropertyValue<string>("teaserLead",
+                        page.GetPropertyValue<string>("lead", "")),
+        Category = page.GetPropertyValue<string>("consultationCategory", "")
+        })
+    </div>
+}
+
+@helper renderAltItem(IPublishedContent page, int index)
+{
+        if (index != 0)
+        {
+            <div class="line-border-thin-skew-right"></div>
+        }
+        @Html.Partial(
+        "Components/_Card",
+        new CardViewModel
+        {
+            Image = page.GetPropertyValue("teaserImage", page.GetPropertyValue("heroImage", Enumerable.Empty<IPublishedContent>())).FirstOrDefault(),
+            GridSize = 4,
+            ImageHeight = 150,
+            MobileImageHeight = 250,
+            Url = page.Url,
+            Date = page.GetPropertyValue<DateTime>("date").ToString("d/M yyyy", System.Globalization.CultureInfo.InvariantCulture),
+            Headline = page.GetPropertyValue<string>("teaserHeadline",
+                                page.GetPropertyValue<string>("headline", page.Name)),
+            Lead = page.GetPropertyValue<string>("teaserLead",
+                            page.GetPropertyValue<string>("lead", "")),
+        })
+}

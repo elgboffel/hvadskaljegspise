@@ -1,0 +1,76 @@
+﻿@inherits UmbracoViewPage<LeBlenderModel>
+@using Lecoati.LeBlender.Extension.Models
+@using Danva.Web.Models.ComponentModels
+@using Danva.Web.Models.ModelsBuilder
+@using Umbraco.Web
+
+@{
+    Html.RequiresJs("~/Content/components/waypoints/lib/jquery.waypoints.min.js", new { @defer = "" } )
+        .RequiresJs("~/Content/components/counter-up/jquery.counterup.min.js", new { @defer = "" })
+        .RequiresJs("~/scripts/app/counter.js", new { @defer = "" });
+
+    foreach (var item in Model.Items)
+    {
+        @renderContent(item)
+    }
+}
+
+@helper renderContent(LeBlenderValue content)
+{
+    var counterList = content.GetValue<IEnumerable<IPublishedContent>>("counter");
+
+    if (counterList.Any())
+    {
+        <div class="counter-list">
+            <div class="counter-list-inner">
+                @foreach (var counter in counterList)
+                {
+                    @renderCounter(counter)
+                }
+            </div>
+        </div>
+    }
+}
+
+@helper renderCounter(IPublishedContent counter)
+{
+    var number = counter.GetPropertyValue<string>("counter");
+    var text = counter.GetPropertyValue<string>("text");
+
+    <div class="counter-item">
+        @if (!string.IsNullOrEmpty(number))
+        {
+            @renderNumber(number)
+        }
+        @if (!string.IsNullOrEmpty(text))
+        {
+            <div class="text">@text</div>
+        }
+    </div>
+}
+
+@helper renderNumber(string number)
+{
+
+    var numberArray = number.Split(',', '.');
+
+    <div class="number">
+        @for (var i = 0; i < numberArray.Count(); i++)
+        {
+            var item = numberArray.ElementAt(i);
+            <span class="counter">
+                @item
+            </span>
+            if (i < numberArray.Count() - 1)
+            {
+                if (number.Contains(","))
+                {
+                    <span>,</span>
+                } else
+                {
+                    <span>.</span>
+                }
+            }
+        }
+    </div>
+}

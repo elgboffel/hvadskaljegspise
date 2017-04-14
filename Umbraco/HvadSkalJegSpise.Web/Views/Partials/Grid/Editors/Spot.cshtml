@@ -1,0 +1,41 @@
+﻿@inherits UmbracoViewPage<LeBlenderModel>
+@using Lecoati.LeBlender.Extension.Models
+@using Danva.Web.Models.ComponentModels
+@using Danva.Web.Models.ModelsBuilder
+@using Umbraco.Web
+
+@foreach (var item in Model.Items)
+{
+        @renderContent(item)
+}
+
+@helper renderContent(LeBlenderValue content)
+{
+var image = content.GetValue<IEnumerable<IPublishedContent>>("image");
+var hasImage = image != null ? image.FirstOrDefault() : null;
+
+var trumpet = content.GetValue<string>("trumpet");
+var headline = content.GetValue<string>("headline");
+var rte = content.GetValue<IHtmlString>("content");
+var link = content.GetValue<IEnumerable<Our.Umbraco.LinksPicker.Models.LinksPickerItem>>("link");
+var renderedUrl = link.Any() ? link.FirstOrDefault().Url : "";
+    <div class="spot flex">
+        @Html.CachedPartial(
+            "Components/_Card",
+            new CardViewModel
+            {
+                Image = hasImage,
+                GridSize = 6,
+                ImageHeight = 350,
+                MobileImageHeight = 250,
+                Trumpet = trumpet,
+                Headline = headline,
+                RTE = rte,
+                Url = renderedUrl
+            },
+            3600,
+            cacheByPage: true
+        )
+        <div class="line-border-thin-skew-right push-bottom"></div>
+    </div>
+}

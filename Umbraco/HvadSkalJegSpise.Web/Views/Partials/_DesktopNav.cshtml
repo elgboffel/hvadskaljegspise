@@ -1,0 +1,37 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+
+@{
+    IPublishedContent root = Model.Content.AncestorOrSelf(1);
+
+    var desktopNavbar = root.Children()
+        .Where(c => c.IsVisible());
+
+    int setLevelRoot = 1;
+    int maxLevelsRendered = 1;
+}
+
+<nav class="desktop-navbar">
+    @RenderDropdownMenu(desktopNavbar, setLevelRoot, maxLevelsRendered)
+</nav>
+
+
+@helper RenderDropdownMenu(IEnumerable<IPublishedContent> desktopNavbar, int setLevelRoot, int maxLevel)
+{
+    <ul class="list-unstyled">
+        @foreach (var node in desktopNavbar)
+        {
+            IEnumerable<IPublishedContent> children = node.Children()
+                .Where(c => c.IsVisible());
+
+            bool hasChildren = children.Any();
+
+            bool path = node.IsAncestorOrSelf(Model.Content);
+
+            <li class="@Umbraco.If(hasChildren, "hc") @Umbraco.If(path, "ancestor")">
+                <a href="@node.Url">@node.Name</a>
+                <div class="navbar-line"></div>
+            </li>
+        }
+    </ul>
+}
+

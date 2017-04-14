@@ -1,0 +1,95 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<CoursePage>
+@using BaseSite.Web.Models.ModelsBuilder
+@using BaseSite.Web.Models.PartialModels
+@using BaseSite.Web.Models.ComponentModels
+
+@{
+    Layout = "_Layout.cshtml";
+    var page = Model.Content;
+}
+<div class="course-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                @Html.CachedPartial(
+                "Components/_Hero",
+                new HeroViewModel
+                {
+                    Image = page.HeroImage,
+                    GridSize = 12,
+                    ImageHeight = 500,
+                    ImageHeightMobile = 350,
+                    Headline = page.ImageText
+                }, 3600, cacheByPage: true)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                @Html.CachedPartial(
+                "Components/_PageHeader",
+                new PageHeaderViewModel
+                {
+                    ArticleType = page.ArticleType,
+                    Trompet = page.Trompet,
+                    Date = page.Date,
+                    Headline = page.Headline,
+                    Lead = page.Lead,
+                    Author = page.Author,
+                }, 3600, cacheByPage: true)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-8">
+                @Html.GetGridHtml(Model.Content, "layout")
+            </div>
+            @if(page.EventStart.Year > 1)
+            {
+                <div class="col-xs-12 col-sm-4">
+                    @renderInfo(page)
+                </div>
+            }
+            <div class="col-xs-12 col-sm-4">
+                @Html.Partial(
+               "Shared/_Sidebar",
+               new SidebarViewModel
+               {
+                   Headline = page.SidebarHeadline,
+                   Layout = page.SidebarLayout
+               })
+            </div>
+        </div>
+    </div>
+</div>
+
+@helper renderInfo(CoursePage page)
+{
+    <div class="course-page-info">
+        <h3>Info</h3>
+        @if (page.EventStart.Year > 1)
+        {
+            <time>@page.EventStart.ToString("dd. MMMM yyyy")</time>
+        }
+        @if (page.EventEnd.Year > 1)
+        {
+            <time>@page.EventEnd.ToString("dd. MMMM yyyy")</time>
+        }
+        @if (!string.IsNullOrEmpty(page.EventPlace))
+        {
+            <p class="course-page-info-place">@Html.Raw(Umbraco.ReplaceLineBreaksForHtml(page.EventPlace))</p>
+        }
+        @if (!string.IsNullOrEmpty(page.Address))
+        {
+            <p class="course-page-info-address">@Html.Raw(Umbraco.ReplaceLineBreaksForHtml(page.Address))</p>
+        }
+        @if (!string.IsNullOrEmpty(page.Price))
+        {
+            <p class="course-page-info-price">@page.Price</p>
+        }
+        @if (page.ExtraInformation != null)
+        {
+            <div class="course-page-info-rte">
+                @Html.Raw(page.ExtraInformation)
+            </div>
+        }
+    </div>
+}

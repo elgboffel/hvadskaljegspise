@@ -1,0 +1,91 @@
+﻿@inherits UmbracoTemplatePage
+@using System.Text;
+@using Examine.Providers
+@using Danva.Web.Models.ComponentModels
+
+
+@{
+    if (Model.Content.HasValue("primaryTags") || Model.Content.HasValue("primaryTags"))
+    {
+
+        var searcher = ExamineManager.Instance.SearchProviderCollection["ExternalSearcher"];
+
+        var primaryTags = Model.Content
+            .GetPropertyValue<IEnumerable<IPublishedContent>>("primaryTags")
+            .Select(x => x.Id)
+            .ToArray();
+
+        var secondaryTags = Model.Content
+            .GetPropertyValue<IEnumerable<IPublishedContent>>("secondaryTags")
+            .Select(x => x.Id)
+            .ToArray();
+
+        var criteria = searcher.CreateSearchCriteria();
+        var query = new StringBuilder();
+        query.Append("-umbracoNaviHide:1 +(__IndexType:content) ");
+
+        var groupedOr = new StringBuilder();
+        foreach (var item in primaryTags)
+        {
+            groupedOr.AppendFormat("primaryTags:\"{0}\" ", item);
+        }
+        foreach (var item in secondaryTags)
+        {
+            groupedOr.AppendFormat("secondaryTags:\"{0}\" ", item);
+        }
+        query.AppendFormat("+({0})", groupedOr.ToString());
+
+        var criteria2 = criteria.RawQuery(query.ToString());
+        var result = searcher.Search(criteria2)
+            .Where(x => x.Id != Model.Content.Id)
+            .Take(4);
+
+        if(result.Any())
+        {
+            <div class="related-page-list">
+                <div class="row flex">
+                    <div class="col-xs-12">
+                        <h5>Læs også:</h5>
+                    </div>
+                    @foreach (var resultItem in result)
+                    {
+                        @RenderResultList(resultItem)
+                    }
+                </div>
+            </div>
+        }
+    }
+}
+
+@helper RenderResultList(SearchResult resultItem)
+{
+    IPublishedContent relatedItem = Umbraco.TypedContent(resultItem.Id) != null ?
+                Umbraco.TypedContent(resultItem.Id) : null;
+
+    if (relatedItem != null)
+    {
+        var image = relatedItem.GetPropertyValue("teaserImage",
+            relatedItem.GetPropertyValue("heroImage", Enumerable.Empty<IPublishedContent>()))
+            .FirstOrDefault();
+        <div class="col-xs-12 col-sm-6 col-md-3 related-page-item">
+            @if (image == null)
+            {
+                <div class="line-border-xs-skew-right"></div>
+            }
+            @Html.Partial("Components/_Card", new CardViewModel
+            {
+                Image = image,
+                ImageHeight = 165,
+                MobileImageHeight = 250,
+                GridSize = 3,
+                Headline = relatedItem.GetPropertyValue<string>("teaserHeadline",
+                                relatedItem.GetPropertyValue<string>("headline", relatedItem.Name)),
+                Lead = relatedItem.GetPropertyValue<string>("teaseLead",
+                            relatedItem.GetPropertyValue<string>("lead", "")),
+                Url = relatedItem.Url
+
+            })
+            <div class="line-border-thin-skew-right push-bottom"></div>
+        </div>
+    }
+}

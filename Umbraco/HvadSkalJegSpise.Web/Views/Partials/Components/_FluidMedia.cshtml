@@ -1,0 +1,29 @@
+﻿@inherits UmbracoViewPage<FluidMediaViewModel>
+@using BaseSite.Web.Models.ComponentModels
+
+@if(Model.Image != null)
+{
+    var image = Model.Image;
+
+    var largeDesktopHeight = Model.ImageHeightLargeDesktop > 0 ? Model.ImageHeightLargeDesktop : Model.ImageHeight;
+    var mobileHeight = Model.ImageHeightMobile > 0 ? Model.ImageHeightMobile : Model.ImageHeight;
+
+    var picture = Umbraco.Picture(image)
+    .Source("(min-width:1700px)", ResizeImage(2500, 12, Model.GridTotalPadding), largeDesktopHeight)
+    .Source("(min-width:1200px)", ResizeImage(1700, 12, Model.GridTotalPadding), largeDesktopHeight)
+    .Source("(min-width:992px)", ResizeImage(1200, Model.GridSize, Model.GridTotalPadding), Model.ImageHeight)
+    .Source("(min-width:768px)", ResizeImage(992, Model.GridSize, Model.GridTotalPadding), Model.ImageHeight)
+    .Source("(min-width:480px)", ResizeImage(768, 12, Model.GridTotalPadding), mobileHeight)
+    .Srcset(ResizeImage(768, 12, Model.GridTotalPadding), mobileHeight)
+    .Alt(image.Name);
+
+    @picture.Html();
+}
+
+@functions {
+    private int ResizeImage(int containerSize, int gridSize, int gridPadding)
+    {
+        int size = (((containerSize / 12) + 1) * gridSize) - gridPadding;
+        return size;
+    }
+}

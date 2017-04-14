@@ -1,0 +1,48 @@
+﻿@inherits Umbraco.Web.Macros.PartialViewMacroPage
+
+@{
+    Html.RequiresCss("~/Content/components/lightbox2/dist/css/lightbox.min.css", 201)
+        .RequiresJs("~/Content/components/lightbox2/dist/js/lightbox.min.js", 201);
+
+
+    string[] imageIds = Model.MacroParameters["images"].ToString().Split(',');
+}
+
+<ul class="gallery">
+    @foreach(var imageId in imageIds)
+    {
+        @RenderMedia(imageId)
+    }
+</ul>
+
+@helper RenderMedia(string imageId)
+{
+    var image = Umbraco.TypedMedia(imageId);
+
+    <li>
+        <a href="@image.Url" data-lightbox="@Model.MacroId">
+            @RenderImage(image)
+        </a>
+    </li>
+}
+
+@helper RenderImage(IPublishedContent image)
+{
+    var picture = Umbraco.Picture(image)
+    .Source("(min-width:1200px)", image.GetCropUrl(width: ResizeImage(1170, 3, 0), height: 175, preferFocalPoint: true))
+    .Source("(min-width:992px)", image.GetCropUrl(width: ResizeImage(970, 3, 0), height: 175, preferFocalPoint: true))
+    .Source("(min-width:768px)", image.GetCropUrl(width: ResizeImage(750, 6, 0), height: 175, preferFocalPoint: true))
+    .Source("(min-width:480px)", image.GetCropUrl(width: ResizeImage(750, 12, 40), height: 250, preferFocalPoint: true))
+    .Srcset(image.GetCropUrl(width: ResizeImage(462, 12, 40),  height: 250, preferFocalPoint: true))
+    .Alt(image.Name);
+
+    @picture.Html();
+}
+
+@functions {
+    private int ResizeImage(int containerSize, int gridSize, int gridPadding)
+    {
+        int size = (((containerSize / 12) + 1) * gridSize) - gridPadding;
+        return size;
+    }
+}

@@ -1,0 +1,44 @@
+﻿@inherits UmbracoViewPage<LeBlenderModel>
+@using Lecoati.LeBlender.Extension.Models
+@using Danva.Web.Models.ComponentModels
+
+@foreach (var item in Model.Items)
+{
+    @renderContent(item)
+}
+
+@helper renderContent(LeBlenderValue content)
+{
+    var employeePicker = content.GetValue<IEnumerable<IPublishedContent>>("employeePicker");
+    var employees = employeePicker != null ? employeePicker : Enumerable.Empty<IPublishedContent>();
+
+    if (employees.Any())
+    {
+        <div class="contact-list contact-list--grid">
+            @foreach (var employee in employees)
+            {
+                @renderContact(employee)
+            }
+        </div>
+    }
+}
+
+@helper renderContact(IPublishedContent employee)
+{
+    @Html.Partial(
+        "Components/_ContactCard",
+        new ContactCardViewModel
+        {
+            Image = employee.GetPropertyValue("image", Enumerable.Empty<IPublishedContent>()).FirstOrDefault(),
+            TypedWidth = 250,
+            ImageHeight = 250,
+            ImageHeightMobile = 400,
+            Name = employee.Name,
+            Title = employee.GetPropertyValue<string>("title", ""),
+            WorkArea = employee.GetPropertyValue<string>("workArea", ""),
+            Phone = employee.GetPropertyValue<string>("phone", ""),
+            Mobile = employee.GetPropertyValue<string>("mobilePhone", ""),
+            Mail = employee.GetPropertyValue<string>("mail", "")
+        }
+    )
+}

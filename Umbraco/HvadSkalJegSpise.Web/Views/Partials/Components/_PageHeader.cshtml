@@ -1,0 +1,29 @@
+﻿@inherits UmbracoViewPage<PageHeaderViewModel>
+@using Danva.Web.Models.ComponentModels
+@using Umbraco.Web.Mvc
+
+
+<div class="page-header">
+
+    @if (!string.IsNullOrEmpty(Model.Trompet))
+    {
+        <small class="trumpet">@Model.Trompet</small>
+    }
+    @if (!string.IsNullOrEmpty(Model.Headline))
+    {
+        <h1>@Model.Headline</h1>
+    }
+    @if (!string.IsNullOrEmpty(Model.Lead))
+    {
+        <p class="lead">@Model.Lead</p>
+    }
+    @if (Model.Date != null && Model.Date.Value.Year > 1)
+    {
+        <time>@Model.Date.Value.ToString("dd. MMMM yyyy")</time>
+    }
+    @if (!string.IsNullOrEmpty(Model.Author))
+    {
+        <small class="byline">@Html.Raw(Model.Author)</small>
+    }
+    <div class="page-header-spacer"></div>
+</div>

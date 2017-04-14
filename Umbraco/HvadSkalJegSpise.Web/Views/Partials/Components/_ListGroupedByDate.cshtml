@@ -1,0 +1,69 @@
+﻿@inherits UmbracoViewPage<ListGroupedByDateViewModel>
+@using BaseSite.Web.Models.ComponentModels
+
+@{
+    var yearGroups = Model.List
+        .GroupBy(x => x.GetPropertyValue<DateTime>("startDate").ToString("yyyy"));
+
+}
+
+<div class="list">
+    @if(!string.IsNullOrEmpty(Model.Headline)){
+        <h2>@Html.Raw(Model.Headline)</h2>
+    }
+
+    @foreach(var yearGroup in yearGroups)
+    {
+        @RenderYear(yearGroup)
+    }
+</div>
+
+@helper RenderYear(IGrouping<string, IPublishedContent> yearGroup)
+{
+    var monthGroups = yearGroup
+        .GroupBy(x => x.GetPropertyValue<DateTime>("startDate").ToString("MMMM"));
+
+    <h4>@yearGroup.Key</h4>
+    foreach(var monthGroup in monthGroups)
+    {
+            @RenderMonth(monthGroup)
+    }
+}
+
+@helper RenderMonth(IGrouping<string, IPublishedContent> monthGroup)
+{
+
+    var orderedGroup = monthGroup.OrderByDescending(x => x.GetPropertyValue<DateTime>("startDate"));
+
+    <h2>@monthGroup.Key</h2>
+    foreach(var item in orderedGroup)
+    {
+            @RenderList(item)
+    }
+}
+
+@helper RenderList(IPublishedContent listItem)
+{
+    <div class="list-item">
+        <a href="@listItem.Url">
+            @if(listItem.HasValue("startDate"))
+            {
+                <time class="trumpet">@(listItem.GetPropertyValue<DateTime>("startDate").ToString("d. MMMM yyyy"))</time>
+            }
+            <h3>@Html.Raw(listItem.GetPropertyValue<string>("headline", listItem.Name))</h3>
+            @if(listItem.HasValue("lead") && Model.ShowLead != false)
+            {
+                <p>@(listItem.GetPropertyValue<string>("lead"))</p>
+            }
+        </a>
+        @if(Model.ShowBreadcrumb != false)
+        {
+            @Html.Partial("Modules/_Breadcrumb", new BreadcrumbViewModel
+            {
+                CurrentPage = listItem,
+                ShowCurrentPage = false
+            })
+        }
+        <div class="spacer45"></div>
+    </div>
+}
